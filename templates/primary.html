@@ -18,13 +18,13 @@
         <label for="checkbox_toggle" class="hamburger">&#9776;</label>
         <!-- NAVIGATION MENUS -->
         <div class="menu">
-          <li><a href="{{ url_for('view_visualise') }}">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li class="services">
-            <a href="/">Visualize</a>
+            <a href="{{ url_for('view_visualise') }}">Visualize</a>
             <ul class="dropdown">
             <li><a href="/">Dominant User data </a></li>
             <li><a href="/">Dominant Categories</a></li>
-            <li><a href="{{ url_for('view_visualise') }}">Categorical wordclouds</a></li>
+            <li><a href="/">Categorical wordclouds</a></li>
             <li><a href="/">Categorical Tweet Analysis</a></li>
           </ul>
         </li>
@@ -43,20 +43,6 @@
           <li><a href="/"></a></li>
         </div>
       </ul>
-    </nav> 
-    <div>
-        <div id="banner" style="overflow: hidden;justify-content:space-around;">
-            <div class="" style="max-width: 33%;max-height: 100%;display: inline-block;">
-                <img src={{ url}}>
-            </div>
-        
-            <div class="" style="max-width: 33%;max-height: 100%;display: inline-block;">
-                <img src={{ url}}>
-            </div>
-        
-            <div class="" style="max-width: 33%;max-height: 100%;display: inline-block;">
-                <img src={{ url}}>
-            </div>
-            </div>
+    </nav>
   </body>
 </html>

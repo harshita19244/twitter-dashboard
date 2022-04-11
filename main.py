@@ -3,14 +3,36 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
 from dominate.tags import img
+import numpy as np
+import pandas as pd
+from os import path
+from PIL import Image
+
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 
 app = Flask(__name__)
-Bootstrap(app)
+
 
 @app.route('/',methods = ['GET'])
 def get_home():
-    return(render_template('index.html'))
+    return render_template('primary.html')
+    
+@app.route('/visualize')
+def view_visualise():
+    df = pd.read_csv("./hatespeech.csv")
+    text = df.tweet[0]
+    pil_img = WordCloud(collocations = False, background_color = 'white').generate(text)
+    plt.imshow(pil_img, interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig('./static/images/new_plot.png')
+    return render_template('index.html',name = 'new_plot', url ='/static/images/new_plot.png')
 
+@app.route("/categorical")
+def view_second_page():
+    return render_template("index.html", title="Second page")
 # @app.route('/visualize', methods=['GET'])
 # def get_news():
 #     return(render_template('news.html'))
