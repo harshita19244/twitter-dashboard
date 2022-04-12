@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <title>Live Twitter Visualization</title>
   </head>
   <body>
     <nav class="navbar">
       <!-- LOGO -->
-      <div class="logo">Twitter Visualization Dashboard</div>
+      <div class="logo">Twitter Dashboard</div>
       <!-- NAVIGATION MENU -->
       <ul class="nav-links">
         <!-- USING CHECKBOX HACK -->
@@ -18,9 +19,9 @@
         <label for="checkbox_toggle" class="hamburger">&#9776;</label>
         <!-- NAVIGATION MENUS -->
         <div class="menu">
-          <li><a href="/">Home</a></li>
+          <li><a href="/"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
           <li class="services">
-            <a href="{{ url_for('view_visualise') }}">Visualize</a>
+            <a href="{{ url_for('view_visualise') }}"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
             <ul class="dropdown">
             <li><a href="/">Dominant User data </a></li>
             <li><a href="/">Dominant Categories</a></li>
@@ -29,7 +30,7 @@
           </ul>
         </li>
           <li class="services">
-            <a href="/">Categorical Analysis</a>
+            <a href="/"><i class="fa fa-bar-chart" aria-hidden="true"></i>Categorical Analysis</a>
             <!-- DROPDOWN MENU -->
             <ul class="dropdown">
               <li><a href="/">Fake News </a></li>
@@ -39,13 +40,13 @@
               <li><a href="/">Misleading Content</a></li>
             </ul>
           </li>
-          <li><a href="/">Live Twitter Analysis</a></li>
+          <li><a href="/"><i class="fa fa-cogs" aria-hidden="true"></i>Live Twitter Analysis</a></li>
           <li><a href="/"></a></li>
         </div>
       </ul>
     </nav>
     <div>
-        <img src="{{ url_for('static', filename='images/img.png') }}" style="margin-left: 140px; margin-top: 80px;">
+        <img src="{{ url_for('static', filename='images/img.png') }}" style="margin-left: 180px; margin-top: 80px;">
     </div>
   </body>
 </html>

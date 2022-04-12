@@ -33,6 +33,8 @@ def view_visualise():
 @app.route("/categorical")
 def view_second_page():
     return render_template("index.html", title="Second page")
+
+#add extra app routes to add more pages 
 # @app.route('/visualize', methods=['GET'])
 # def get_news():
 #     return(render_template('news.html'))

@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />\
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <title>Live Twitter Visualization</title>
   </head>
   <body>
     <nav class="navbar">
       <!-- LOGO -->
-      <div class="logo">Twitter Visualization Dashboard</div>
+      <div class="logo">Twitter Dashboard</div>
       <!-- NAVIGATION MENU -->
       <ul class="nav-links">
         <!-- USING CHECKBOX HACK -->
@@ -18,18 +19,24 @@
         <label for="checkbox_toggle" class="hamburger">&#9776;</label>
         <!-- NAVIGATION MENUS -->
         <div class="menu">
-          <li><a href="{{ url_for('view_visualise') }}">Home</a></li>
+            <li class="services">
+              <a href="{{ url_for('view_visualise') }}"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
+              <ul class="dropdown">
+              <li><a href="/">Background </a></li>
+              <li><a href="/">Contact</a></li>
+              </ul>
+          </li>
           <li class="services">
-            <a href="/">Visualize</a>
+            <a href="{{ url_for('view_visualise') }}"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
             <ul class="dropdown">
             <li><a href="/">Dominant User data </a></li>
             <li><a href="/">Dominant Categories</a></li>
-            <li><a href="{{ url_for('view_visualise') }}">Categorical wordclouds</a></li>
+            <li><a href="/">Categorical wordclouds</a></li>
             <li><a href="/">Categorical Tweet Analysis</a></li>
           </ul>
         </li>
           <li class="services">
-            <a href="/">Categorical Analysis</a>
+            <a href="/"><i class="fa fa-bar-chart" aria-hidden="true"></i>Categorical Analysis</a>
             <!-- DROPDOWN MENU -->
             <ul class="dropdown">
               <li><a href="/">Fake News </a></li>
@@ -39,13 +46,43 @@
               <li><a href="/">Misleading Content</a></li>
             </ul>
           </li>
-          <li><a href="/">Live Twitter Analysis</a></li>
+          <li><a href="/"><i class="fa fa-cogs" aria-hidden="true"></i>Live Twitter Analysis</a></li>
           <li><a href="/"></a></li>
         </div>
       </ul>
     </nav> 
     <div>
-        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+        <div class="row">
+            <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
+              <div class="card" id="about">
+                <img src={{ url}} alt="Avatar" class="card-im">
+                <h2>About</h2>
+                <p class="content">WordCloud Desc </p>
+              </div>
+            </div>
+            <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;" >
+              <div class="card" id="background">
+                <img src={{ url}} alt="Avatar" class="card-im">
+                <h2>Background</h2>
+                <p class="content"> WordCloud Desc</p>
+              </div> 
+            </div>
+            <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
+                <div class="card" id="about">
+                  <img src={{ url}} alt="Avatar" class="card-im">
+                  <h2>About</h2>
+                  <p class="content">WordCloud Desc </p>
+                </div>
+              </div>
+              <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;">
+                <div class="card" id="background">
+                  <img src={{ url}} alt="Avatar" class="card-im">
+                  <h2>Background</h2>
+                  <p class="content"> WordCloud Desc</p>
+                </div> 
+              </div>
+            </div>
+        <!-- <div id="banner" style="overflow: hidden;justify-content:space-around;">
             <div class="" style="max-width: 33%;max-height: 100%;display: inline-block;">
                 <img src={{ url}}>
             </div>
@@ -57,6 +94,6 @@
             <div class="" style="max-width: 33%;max-height: 100%;display: inline-block;">
                 <img src={{ url}}>
             </div>
-            </div>
+            </div> -->
   </body>
 </html>
