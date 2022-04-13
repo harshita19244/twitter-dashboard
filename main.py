@@ -34,10 +34,9 @@ def view_visualise():
 def view_second_page():
     return render_template("index.html", title="Second page")
 
-#add extra app routes to add more pages 
-# @app.route('/visualize', methods=['GET'])
-# def get_news():
-#     return(render_template('news.html'))
+@app.route('/geoheatmap', methods=['GET'])
+def get_geoheatmap():
+    return(render_template('geoheatmap.html'))
 
 # @app.route('/live', methods=["GET"])
 # def get_live():
