@@ -10,3 +10,4 @@ If twitter real time data is not visible then follow these
 7. If still not able to see the twitter data, its some issue with the Bearer token
 8. You will have to log in to the developer portal and generate your own bearer token
 9. once the bearer token is generated, copy and paste in .env file
+
