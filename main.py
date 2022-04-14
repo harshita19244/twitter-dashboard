@@ -87,41 +87,57 @@ def get_geoheatmap():
 
 @app.route("/query5")
 def plot_category():
-    data = pd.read_csv("./Emotion.csv",encoding='latin-1',header=None)
-    data = data.sample(frac = 1)
-    data=data[0:50]
-    data['follower_count']=500089
+    func('Fake',20)
+    data = df
+    
+    data['tweet_label']=0
+    for i in range(len(data)):
+        data['tweet_label'] = np.random.randint(0,6)
+        i = i + 1 
+    
+    
     #ploting
     category = 0
     #request.form['category']
     
-    get_negative_data=data.loc[data[0]==0]
-    sorted_negative=get_negative_data.groupby([4]).size()
-    sorted_negative=sorted_negative.sort_values(ascending=False)
-    sorted_negative=sorted_negative[0:5]
-    plt.bar(sorted_negative.index,sorted_negative,color='black')
-    plt.savefig("./static/images/bar_plot_category_negative.png")
-    get_positive_data=data.loc[data[0]==4]
-    sorted_positive=get_positive_data.groupby([4]).size()
+    get_0_data=data.loc[data['tweet_label']==0]
+    sorted_0=get_0_data.groupby("User").size()
+    sorted_0=sorted_0.sort_values(ascending=False)
+    sorted_0=sorted_0[0:5]
+    plt.bar(sorted_0.index,sorted_0,color='black')
+    plt.savefig("./static/images/bar_plot_category_0.png")
 
-    sorted_positive=sorted_positive.sort_values(ascending=False)
-    sorted_positive=sorted_positive[0:5]
-    plt.bar(sorted_positive.index,sorted_positive,color='black')
-    plt.savefig("./static/images/bar_plot_category_positive.png")
+    get_1_data=data.loc[data['tweet_label']==1]
+    sorted_1=get_1_data.groupby("User").size()
 
-    sorted_followers_count_negative=get_negative_data.drop_duplicates(4)
-    sorted_followers_count_negative=sorted_followers_count_negative.sort_values('follower_count',ascending=False)
-    sorted_followers_count_negative=sorted_followers_count_negative[0:5]
-    plt.bar(sorted_followers_count_negative[4],sorted_followers_count_negative['follower_count'],color='black')
-    plt.savefig("./static/images/bar_plot_category_negative_followers.png")
+    sorted_1=sorted_1.sort_values(ascending=False)
+    sorted_1=sorted_1[0:5]
+    plt.bar(sorted_1.index,sorted_1,color='black')
+    plt.savefig("./static/images/bar_plot_category_1.png")
+    
+    get_2_data=data.loc[data['tweet_label']==2]
+    sorted_2=get_2_data.groupby("User").size()
 
-    sorted_followers_count_positive=get_positive_data.drop_duplicates(4)
-    sorted_followers_count_positive=sorted_followers_count_positive.sort_values('follower_count',ascending=False)
-    sorted_followers_count_positive=sorted_followers_count_positive[0:5]
-    plt.bar(sorted_followers_count_positive[4].index,sorted_followers_count_positive['follower_count'],color='black')
-    plt.savefig("./static/images/bar_plot_category_positive_followers.png")
+    
 
-    a,b,c,d="/static/images/bar_plot_category_negative.png","/static/images/bar_plot_category_positive.png","/static/images/bar_plot_category_negative_followers.png","/static/images/bar_plot_category_positive_followers"
+
+    sorted_likes_count_0=get_0_data.drop_duplicates("User")
+    sorted_likes_count_0=sorted_likes_count_0.sort_values("Likes",ascending=False)
+    sorted_likes_count_0=sorted_likes_count_0[0:5]
+    plt.bar(sorted_likes_count_0["User"],sorted_likes_count_0["Likes"],color='black')
+    plt.savefig("./static/images/bar_plot_category_0_followers.png")
+
+    sorted_followers_count_1=get_1_data.drop_duplicates("User")
+    sorted_followers_count_1=sorted_followers_count_1.sort_values("Likes",ascending=False)
+    sorted_followers_count_1=sorted_followers_count_1[0:5]
+    plt.bar(sorted_followers_count_1["User"].index,sorted_followers_count_1["Likes"],color='black')
+    plt.savefig("./static/images/bar_plot_category_1_followers.png")
+
+    
+
+
+    a,b,c,d="/static/images/bar_plot_category_0.png","/static/images/bar_plot_category_1.png","/static/images/bar_plot_category_0_followers.png","/static/images/bar_plot_category_1_followers.png"
+    return render_template('query10.html',name = 'new_plot', img1=a,img2=b,img3=c,img4=d)
 
 
     return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
