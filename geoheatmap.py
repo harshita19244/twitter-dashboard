@@ -46,7 +46,12 @@ def create_maps(df, cols):
 		# Add the colorbar to the figure
 		cbaxes = fig.add_axes([0.15, 0.25, 0.01, 0.4])
 		cbar = fig.colorbar(sm, cax=cbaxes)
-		fig.savefig('./static/images/geoheatmaps/geoheatmap_plot_'+str(ctr)+'.png', dpi=300)
+		fig.savefig('./static/images/geoheatmap_plot_'+str(ctr)+'.png', dpi=300)
+
+def specific_code(s):
+	iso3_codes = s.to_list()
+	iso2_codes_list = coco.convert(names=iso3_codes, to='ISO2', not_found='NULL')
+	return pd.DataFrame(iso2_codes_list)
 
 def country_codes(df):
 	# Ensure that our data matches with the country codes. 
@@ -76,5 +81,5 @@ def map():
 def generate_urls(n):
 	urls = []
 	for i in range(1, n+1, 1):
-		urls.append('/static/images/geoheatmaps/geoheatmap_plot_'+str(i)+'.png')
+		urls.append('/static/images/geoheatmap_plot_'+str(i)+'.png')
 	return urls

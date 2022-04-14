@@ -13,11 +13,3 @@ python -m flask run
 
 4. For windows based command line use set instead of export
   
-  
-#### For Geolocation heatmap
-* Create a wheels/ folder
-* Download whl files for Fiona and GDAL corresponding to your system from these links and add to the folder:
-https://www.lfd.uci.edu/~gohlke/pythonlibs/#fiona
-https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal
-* cd into the wheels/ folder
-* pip install <wheel_file_name>

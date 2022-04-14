@@ -22,18 +22,18 @@
         <!-- NAVIGATION MENUS -->
         <div class="menu">
             <li class="services">
-              <a href="{{ url_for('view_visualise') }}"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
+              <a href="{{ url_for('get_home') }}"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
               <ul class="dropdown">
               <li><a href="/">Background </a></li>
               <li><a href="/">Contact</a></li>
               </ul>
           </li>
           <li class="services">
-            <a href="{{ url_for('view_visualise') }}"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
+            <a href="/"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
             <ul class="dropdown">
             <li><a href="/">Dominant User data </a></li>
-            <li><a href="/">Dominant Categories</a></li>
-            <li><a href="/">Categorical wordclouds</a></li>
+            <li><a href="{{ url_for('view_analyse') }}">Dominant Categories</a></li>
+            <li><a href="{{ url_for('view_visualise') }}">Categorical wordclouds</a></li>
             <li><a href="{{ url_for('get_geoheatmap') }}">Categorical Geolocation Heatmap</a></li>
             <li><a href="/">Categorical Tweet Analysis</a></li>
           </ul>

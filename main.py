@@ -7,36 +7,84 @@ import numpy as np
 import pandas as pd
 from os import path
 from PIL import Image
-
+import re
+import tweepy
+from tweepy import OAuthHandler
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
 import geoheatmap
-
+df = pd.DataFrame(columns=["Date","User","IsVerified","Tweet","Likes","RT",'User_location'])
+labels= [0,0,0,0,0,0]
 app = Flask(__name__)
 
+def func(Topic,Count):
+    consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
+    consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
+    access_token = "899977011774369795-VDedKBd2KOO0xtmOJZWLqJHognDLZOo"
+    access_token_secret = "Nd83xEIqrxFpTj6ThCQ9FaRBzA2NLyjenFcGfIMuaFqFM"
 
-@app.route('/',methods = ['GET'])
+
+    # Use the above credentials to authenticate the API.
+    i = 0
+    auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
+    auth.set_access_token( access_token , access_token_secret )
+    api = tweepy.API(auth)
+    for tweet in tweepy.Cursor(api.search_tweets, q=Topic,count=100, lang="en",exclude='retweets').items():
+            #time.sleep(0.1)
+            #my_bar.progress(i)
+            df.loc[i,"Date"] = tweet.created_at
+            df.loc[i,"User"] = tweet.user.name
+            df.loc[i,"IsVerified"] = tweet.user.verified
+            df.loc[i,"Tweet"] = tweet.text
+            df.loc[i,"Likes"] = tweet.favorite_count
+            df.loc[i,"RT"] = tweet.retweet_count
+            df.loc[i,"User_location"] = tweet.user.location
+            #df.to_csv("TweetDataset.csv",index=False)
+            #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
+            i=i+1
+            if i>Count:
+                break
+            else:
+                pass
+    
+@app.route('/home',methods = ['GET'])
 def get_home():
     return render_template('primary.html')
     
 @app.route('/visualize')
 def view_visualise():
-    df = pd.read_csv("./hatespeech.csv")
-    text = df.tweet[0]
+    func('Hate',20)
+    # df = pd.read_csv("./hatespeech.csv")
+    text = df.Tweet[0]
     pil_img = WordCloud(collocations = False, background_color = 'white').generate(text)
     plt.imshow(pil_img, interpolation='bilinear')
     plt.axis("off")
     plt.savefig('./static/images/new_plot.png')
     return render_template('index.html', name = 'new_plot', url ='/static/images/new_plot.png')
 
+@app.route('/analyse')
+def view_analyse():
+    func('Fake',20)
+    i = 0
+    tweets = df['Tweet']
+    for i in range(len(labels)):
+        labels[i] += np.random.randint(0,6)
+        i = i + 1 
+    x_axis= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
+    plt.bar(x_axis, labels,color=['cyan','red','purple','green', 'blue', 'black'])
+    plt.savefig('./static/images/bar_plot.png')
+    return render_template('index.html', name = 'new_graph', url = './static/images/bar_plot.png')
+
 @app.route('/geoheatmap')
 def get_geoheatmap():
+    #take input as df['User_location']
     urls, names = geoheatmap.create_geoheatmap()
     return render_template('geoheatmap.html', url = urls, name = names)
-    # return
+
+
 @app.route("/query5")
 def plot_category():
     data = pd.read_csv("./Emotion.csv",encoding='latin-1',header=None)
