@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Categorical Geolocation Heatmap{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div>
+    <div class="row">
+        <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
+          <div class="card" id="about">
+            <img src={{ aa}} alt="Avatar" class="card-im">
+            
+            <p class="content">Bar plot for number of negative tweets of top 5 negative tweeters </p>
+          </div>
+        </div>
+        <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;" >
+          <div class="card" id="background">
+            <img src={{ bb}} alt="Avatar" class="card-im">
+            
+            <p class="content"> Bar plot for number of positive tweets of top 5 positive tweeters</p>
+          </div> 
+        </div>
+        <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
+            <div class="card" id="about">
+              <img src={{ cc}} alt="Avatar" class="card-im">
+              
+              <p class="content">Bar plot of number of followers of negative tweeters </p>
+            </div>
+          </div>
+          <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;">
+            <div class="card" id="background">
+              <img src={{ dd}} alt="Avatar" class="card-im">
+              
+              <p class="content"> Bar plot of number of followers of positive tweeters</p>
+            </div> 
+          </div>
+        </div>
+{% endblock %}
