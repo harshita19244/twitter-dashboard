@@ -13,6 +13,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
+import geoheatmap
+
 app = Flask(__name__)
 
 
@@ -28,15 +30,18 @@ def view_visualise():
     plt.imshow(pil_img, interpolation='bilinear')
     plt.axis("off")
     plt.savefig('./static/images/new_plot.png')
-    return render_template('index.html',name = 'new_plot', url ='/static/images/new_plot.png')
+    return render_template('index.html', name = 'new_plot', url ='/static/images/new_plot.png')
 
-@app.route("/categorical")
-def view_second_page():
-    return render_template("index.html", title="Second page")
-
-@app.route('/geoheatmap', methods=['GET'])
+@app.route('/geoheatmap')
 def get_geoheatmap():
-    return(render_template('geoheatmap.html'))
+    urls, names = geoheatmap.create_geoheatmap()
+    return render_template('geoheatmap.html', url = urls, name = names)
+    # return
+
+
+# @app.route("/categorical")
+# def view_second_page():
+#     return render_template("index.html", title="Second page")
 
 # @app.route('/live', methods=["GET"])
 # def get_live():
