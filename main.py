@@ -16,23 +16,25 @@ import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
 import geoheatmap
+
+consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
+consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
+access_token = "899977011774369795-VDedKBd2KOO0xtmOJZWLqJHognDLZOo"
+access_token_secret = "Nd83xEIqrxFpTj6ThCQ9FaRBzA2NLyjenFcGfIMuaFqFM"
+
 df = pd.DataFrame(columns=["Date","User","IsVerified","Tweet","Likes","RT",'User_location'])
 labels= [0,0,0,0,0,0]
+tags = ['True', 'Satire', 'Misleading', 'Manipulated', 'False', 'Impostor']
 app = Flask(__name__)
 
 def func(Topic,Count):
-    consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
-    consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
-    access_token = "899977011774369795-VDedKBd2KOO0xtmOJZWLqJHognDLZOo"
-    access_token_secret = "Nd83xEIqrxFpTj6ThCQ9FaRBzA2NLyjenFcGfIMuaFqFM"
-
 
     # Use the above credentials to authenticate the API.
     i = 0
     auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
     auth.set_access_token( access_token , access_token_secret )
     api = tweepy.API(auth)
-    for tweet in tweepy.Cursor(api.search_tweets, q=Topic,count=100, lang="en",exclude='retweets').items():
+    for tweet in tweepy.Cursor(api.search_tweets, q=Topic, count=5000, lang="en", exclude='retweets').items(5000):
             #time.sleep(0.1)
             #my_bar.progress(i)
             df.loc[i,"Date"] = tweet.created_at
@@ -42,31 +44,35 @@ def func(Topic,Count):
             df.loc[i,"Likes"] = tweet.favorite_count
             df.loc[i,"RT"] = tweet.retweet_count
             df.loc[i,"User_location"] = tweet.user.location
+            df.loc[i,"Coordinates"] = tweet.coordinates
+            df.loc[i,"Places"] = tweet.place
             #df.to_csv("TweetDataset.csv",index=False)
             #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
-            i=i+1
-            if i>Count:
+            i = i+1
+            if i > Count:
                 break
             else:
                 pass
+    print(df["User_location"])
+    df.to_csv("TweetDataset.csv",index=False)
     
 @app.route('/home',methods = ['GET'])
 def get_home():
     return render_template('primary.html')
     
-@app.route('/visualize')
-def view_visualise():
+@app.route('/wordcloud')
+def view_wordcloud():
     func('Hate',20)
     # df = pd.read_csv("./hatespeech.csv")
     text = df.Tweet[0]
     pil_img = WordCloud(collocations = False, background_color = 'white').generate(text)
     plt.imshow(pil_img, interpolation='bilinear')
     plt.axis("off")
-    plt.savefig('./static/images/new_plot.png')
-    return render_template('index.html', name = 'new_plot', url ='/static/images/new_plot.png')
+    plt.savefig('./static/images/wordcloud_plot.png')
+    return render_template('index.html', name = 'wordcloud_plot', url ='/static/images/wordcloud_plot.png')
 
-@app.route('/analyse')
-def view_analyse():
+@app.route('/bargraph')
+def view_bargraph():
     func('Fake',20)
     i = 0
     tweets = df['Tweet']
@@ -76,10 +82,10 @@ def view_analyse():
     x_axis= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
     plt.bar(x_axis, labels,color=['cyan','red','purple','green', 'blue', 'black'])
     plt.savefig('./static/images/bar_plot.png')
-    return render_template('index.html', name = 'new_graph', url = './static/images/bar_plot.png')
+    return render_template('index.html', name = 'bar_plot', url = './static/images/bar_plot.png')
 
 @app.route('/geoheatmap')
-def get_geoheatmap():
+def view_geoheatmap():
     #take input as df['User_location']
     urls, names = geoheatmap.create_geoheatmap()
     return render_template('geoheatmap.html', url = urls, name = names)
@@ -94,7 +100,6 @@ def plot_category():
     for i in range(len(data)):
         data['tweet_label'] = np.random.randint(0,6)
         i = i + 1 
-    
     
     #ploting
     category = 0
@@ -118,8 +123,6 @@ def plot_category():
     get_2_data=data.loc[data['tweet_label']==2]
     sorted_2=get_2_data.groupby("User").size()
 
-    
-
 
     sorted_likes_count_0=get_0_data.drop_duplicates("User")
     sorted_likes_count_0=sorted_likes_count_0.sort_values("Likes",ascending=False)
@@ -131,36 +134,13 @@ def plot_category():
     sorted_followers_count_1=sorted_followers_count_1.sort_values("Likes",ascending=False)
     sorted_followers_count_1=sorted_followers_count_1[0:5]
     plt.bar(sorted_followers_count_1["User"].index,sorted_followers_count_1["Likes"],color='black')
-    plt.savefig("./static/images/bar_plot_category_1_followers.png")
-
-    
+    plt.savefig("./static/images/bar_plot_category_1_followers.png")    
 
 
     a,b,c,d="/static/images/bar_plot_category_0.png","/static/images/bar_plot_category_1.png","/static/images/bar_plot_category_0_followers.png","/static/images/bar_plot_category_1_followers.png"
     return render_template('query10.html',name = 'new_plot', img1=a,img2=b,img3=c,img4=d)
 
-
     return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
-# @app.route("/categorical")
-# def view_second_page():
-#     return render_template("index.html", title="Second page")
-
-# @app.route('/live', methods=["GET"])
-# def get_live():
-#     return(render_template('live.html'))
-
-
-# @app.route('/programme', methods=["GET"])
-# def get_programme():
-#     return(render_template('programme.html'))
-
-# @app.route('/classement', methods=["GET"])
-# def get_classement():
-#     return(render_template('classement.html'))
-
-# @app.route('/contact', methods=["GET"])
-# def get_contact():
-#     return(render_template('contact.html'))
 
 @app.after_request
 def add_header(response):
