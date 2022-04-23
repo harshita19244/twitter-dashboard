@@ -142,6 +142,15 @@ def plot_category():
 
     return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
 
+@app.route('/inputtext', methods=['GET', 'POST'])
+def classify_inputtext():
+    if request.method == 'POST':
+        text = request.form['text']
+        processed_text = text.upper()
+        return processed_text
+    else:
+        return render_template('inputtext.html')
+
 @app.after_request
 def add_header(response):
 	"""

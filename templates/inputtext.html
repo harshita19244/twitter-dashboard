@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Live Twitter Visualization{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
+        <h1>Fine-Grained Social Media Content Classification</h1>
+        <h4>Enter text to classify</h4>
+    </div>
+    <div class="column" style="float: left; width: 60%; margin-top: 40px; margin-left: 400px;">
+        <form method="POST">
+            <input name="text">
+            <input type="submit">
+        </form>
+    </div>
+{% endblock %}
