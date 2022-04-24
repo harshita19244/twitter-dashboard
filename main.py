@@ -13,7 +13,10 @@ from tweepy import OAuthHandler
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib
 import matplotlib.pyplot as plt
-import geopandas as gpd
+import subprocess
+from models.hsol import caller as cl1
+from models.fakeddit_2 import caller as cl2
+from models.fakeddit_6 import caller as cl3
 matplotlib.use('Agg')
 
 import geoheatmap
@@ -27,6 +30,8 @@ df = pd.DataFrame(columns=["Date","User","IsVerified","Tweet","Likes","RT",'User
 labels= [0,0,0,0,0,0]
 tags = ['True', 'Satire', 'Misleading', 'Manipulated', 'False', 'Impostor']
 app = Flask(__name__)
+
+
 
 def func(Topic,Count):
 
@@ -54,7 +59,7 @@ def func(Topic,Count):
                 break
             else:
                 pass
-    print(df["User_location"])
+    # print(df["User_location"]
     df.to_csv("TweetDataset.csv",index=False)
     
 @app.route('/home',methods = ['GET'])
@@ -64,13 +69,32 @@ def get_home():
 @app.route('/wordcloud')
 def view_wordcloud():
     func('Hate',20)
-    # df = pd.read_csv("./hatespeech.csv")
-    text = df.Tweet[0]
-    pil_img = WordCloud(collocations = False, background_color = 'white').generate(text)
+    pred = cl1(df)
+    # 1 - OFFENSIVE
+    # 0 - HATE
+    # 2 - NEITHER
+    #text = df['Tweet'][0]
+    hate_tweets = pred.loc[pred['Category'] == 0]
+    offensive_tweets = pred.loc[pred['Category'] == 1]
+    none_tweets = pred.loc[pred['Category'] == 2]
+    print(hate_tweets)
+    pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(hate_tweets['Tweet']))
+    pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(offensive_tweets['Tweet']))
+    pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(none_tweets['Tweet']))
     plt.imshow(pil_img, interpolation='bilinear')
     plt.axis("off")
-    plt.savefig('./static/images/wordcloud_plot.png')
-    return render_template('index.html', name = 'wordcloud_plot', url ='/static/images/wordcloud_plot.png')
+    plt.savefig('./static/images/wordcloud_plot1.png')
+    plt.imshow(pil_img2, interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig('./static/images/wordcloud_plot2.png')
+    plt.imshow(pil_img3, interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig('./static/images/wordcloud_plot3.png')
+    names = []
+    names.append(pil_img);names.append(pil_img2);names.append(pil_img3)
+    urls = []
+    urls.append('./static/images/wordcloud_plot1.png');urls.append('./static/images/wordcloud_plot2.png');urls.append('./static/images/wordcloud_plot3.png')
+    return render_template('index.html', name = names, url =urls)
 
 @app.route('/bargraph')
 def view_bargraph():
@@ -85,9 +109,7 @@ def view_bargraph():
     plt.savefig('./static/images/bar_plot.png')
     return render_template('index.html', name = 'bar_plot', url = './static/images/bar_plot.png')
 
-import plotly
-import json
-import plotly.express as px
+
 @app.route('/geoheatmap')
 def view_geoheatmap():
     graphJSON, urls, names = geoheatmap.create_geoheatmap()
@@ -143,7 +165,7 @@ def plot_category():
     a,b,c,d="/static/images/bar_plot_category_0.png","/static/images/bar_plot_category_1.png","/static/images/bar_plot_category_0_followers.png","/static/images/bar_plot_category_1_followers.png"
     return render_template('query10.html',name = 'new_plot', img1=a,img2=b,img3=c,img4=d)
 
-    return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
+    # return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
 
 @app.route('/inputtext', methods=['GET', 'POST'])
 def classify_inputtext():
