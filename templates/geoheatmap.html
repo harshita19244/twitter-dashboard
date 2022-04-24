@@ -2,35 +2,55 @@
 {% block title %}Categorical Geolocation Heatmap{% endblock %}
 {% block head %}{{ super() }}{% endblock %}
 {% block content %}
-<div>
-  <div class="row">
-    <div class="column" style="float: left; width: 60%; margin-top: 70px; margin-left: 250px;">
-      <div class="card" id="about">
-        <img src={{ url[0] }} alt="Avatar" class="card-im">
-        <h2>{{ name[0] }}</h2>
-        <p class="content">Geolocation Heatmap</p>
+    <div class="row">
+        <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
+            <h1>Categorical Geolocation Heatmaps</h1>
+        </div>
+        <div class="column" style="float: left; width: 60%; margin-top: 70px; margin-left: 300px;">
+            <div class="card" id="about">
+                <div id='chart1' class='chart1'”></div>
+                <!-- <img src={{ url[0] }} alt="Avatar" class="card-im"> -->
+                <h2>{{ name[0] }}</h2>
+                <p class="content">Geolocation Heatmap</p>
+            </div>
+        </div>
+        <div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 300px;" >
+            <div class="card" id="background">
+                <div id='chart2' class='chart2'”></div>
+                <!-- <img src={{ url[1] }} alt="Avatar" class="card-im"> -->
+                <h2>{{ name[1] }}</h2>
+                <p class="content">Geolocation Heatmap</p>
+            </div> 
+        </div>
+        <div class="column" style="float: left; width: 60%; margin-top: 70px; margin-left: 300px;">
+            <div class="card" id="about">
+                <div id='chart3' class='chart3'”></div>
+                <!-- <img src={{ url[2] }} alt="Avatar" class="card-im"> -->
+                <h2>{{ name[2] }}</h2>
+                <p class="content">Geolocation Heatmap</p>
+            </div>
+        </div>
+        <div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 300px;">
+            <div class="card" id="background">
+                <div id='chart4' class='chart4'”></div>
+                <!-- <img src={{ url[3] }} alt="Avatar" class="card-im"> -->
+                <h2>{{ name[3] }}</h2>
+                <p class="content">Geolocation Heatmap</p>
+            </div> 
+        </div>
     </div>
-</div>
-<div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 250px;" >
-  <div class="card" id="background">
-    <img src={{ url[1] }} alt="Avatar" class="card-im">
-    <h2>{{ name[1] }}</h2>
-    <p class="content">Geolocation Heatmap</p>
-</div> 
-</div>
-<div class="column" style="float: left; width: 60%; margin-top: 70px; margin-left: 250px;">
-  <div class="card" id="about">
-    <img src={{ url[2] }} alt="Avatar" class="card-im">
-    <h2>{{ name[2] }}</h2>
-    <p class="content">Geolocation Heatmap</p>
-</div>
-</div>
-<div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 250px;">
-  <div class="card" id="background">
-    <img src={{ url[3] }} alt="Avatar" class="card-im">
-    <h2>{{ name[3] }}</h2>
-    <p class="content">Geolocation Heatmap</p>
-</div> 
-</div>
-</div>
+    <div id='chart' class='chart'”></div>
+{% endblock %}
+{% block javascript %}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+    var graph1 = {{graphJSON[0] | safe}};
+    var graph2 = {{graphJSON[1] | safe}};
+    var graph3 = {{graphJSON[2] | safe}};
+    var graph4 = {{graphJSON[3] | safe}};
+    Plotly.plot('chart1',graph1,{});
+    Plotly.plot('chart2',graph2,{});
+    Plotly.plot('chart3',graph3,{});
+    Plotly.plot('chart4',graph4,{});
+</script>
 {% endblock %}

@@ -13,6 +13,7 @@ from tweepy import OAuthHandler
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib
 import matplotlib.pyplot as plt
+import geopandas as gpd
 matplotlib.use('Agg')
 
 import geoheatmap
@@ -84,11 +85,13 @@ def view_bargraph():
     plt.savefig('./static/images/bar_plot.png')
     return render_template('index.html', name = 'bar_plot', url = './static/images/bar_plot.png')
 
+import plotly
+import json
+import plotly.express as px
 @app.route('/geoheatmap')
 def view_geoheatmap():
-    #take input as df['User_location']
-    urls, names = geoheatmap.create_geoheatmap()
-    return render_template('geoheatmap.html', url = urls, name = names)
+    graphJSON, urls, names = geoheatmap.create_geoheatmap()
+    return render_template('geoheatmap.html', url = urls, name = names, graphJSON=graphJSON)
 
 
 @app.route("/query5")

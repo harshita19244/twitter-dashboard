@@ -5,6 +5,10 @@ import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import fiona
+import json
+import plotly
+import plotly.express as px
+import plotly.tools as tls
 
 
 def create_geoheatmap():
@@ -16,37 +20,51 @@ def create_geoheatmap():
 	df.fillna(0, inplace=True)
 	df['Density (per sq. mi.)'] = round(df['Population']/df['Area (sq. mi.)'], 2)
 	cols = ['Population', 'Area (sq. mi.)', 'GDP ($ per capita)', 'Density (per sq. mi.)']
-	create_maps(df, cols)
+	gjsons = create_maps(df, cols)
 	urls = generate_urls(4)
-	return urls, cols
+	return gjsons, urls, cols
 
 def create_maps(df, cols):
 	ctr = 0
+	gjsons = []
 	for col in cols:
 		ctr += 1
-		title = 'World Data: '+col
-		source = 'Source: https://www.kaggle.com/datasets/fernandol/countries-of-the-world'
-		vmin = df[col].min()
-		vmax = df[col].max()
-		cmap = 'viridis'
-		# Create figure and axes for Matplotlib
-		fig, ax = plt.subplots(1, figsize=(20, 8))
-		# Remove the axis
-		ax.axis('off')
-		df.plot(column=col, ax=ax, edgecolor='0.8', linewidth=1, cmap=cmap)
-		# Add a title
-		ax.set_title(title, fontdict={'fontsize': '25', 'fontweight': '3'})
-		# Create an annotation for the data source
-		ax.annotate(source, xy=(0.1, .08), xycoords='figure fraction', horizontalalignment='left', 
-		            verticalalignment='bottom', fontsize=10)
-		# Create colorbar as a legend
-		sm = plt.cm.ScalarMappable(norm=plt.Normalize(vmin=vmin, vmax=vmax), cmap=cmap)
-		# Empty array for the data range
-		sm._A = []
-		# Add the colorbar to the figure
-		cbaxes = fig.add_axes([0.15, 0.25, 0.01, 0.4])
-		cbar = fig.colorbar(sm, cax=cbaxes)
-		fig.savefig('./static/images/geoheatmap_plot_'+str(ctr)+'.png', dpi=300)
+		# title = 'World Data: '+col
+		# source = 'Source: https://www.kaggle.com/datasets/fernandol/countries-of-the-world'
+		# vmin = df[col].min()
+		# vmax = df[col].max()
+		# cmap = 'viridis'
+		# # Create figure and axes for Matplotlib
+		# fig, ax = plt.subplots(1, figsize=(20, 8))
+		# # Remove the axis
+		# ax.axis('off')
+		# df.plot(column=col, ax=ax, edgecolor='0.8', linewidth=1, cmap=cmap)
+		# # Add a title
+		# ax.set_title(title, fontdict={'fontsize': '25', 'fontweight': '3'})
+		# # Create an annotation for the data source
+		# ax.annotate(source, xy=(0.1, .08), xycoords='figure fraction', horizontalalignment='left', 
+		#             verticalalignment='bottom', fontsize=10)
+		# # Create colorbar as a legend
+		# sm = plt.cm.ScalarMappable(norm=plt.Normalize(vmin=vmin, vmax=vmax), cmap=cmap)
+		# # Empty array for the data range
+		# sm._A = []
+		# # Add the colorbar to the figure
+		# cbaxes = fig.add_axes([0.15, 0.25, 0.01, 0.4])
+		# cbar = fig.colorbar(sm, cax=cbaxes)
+
+		# fig.savefig('./static/images/geoheatmap_plot_'+str(ctr)+'.png', dpi=300)
+
+		plotly_fig = px.choropleth(df,
+               geojson=df.geometry,
+               locations=df.index,
+               color=col,
+               projection="mercator"
+        )
+		plotly_fig.update_geos(fitbounds="locations", visible=False)
+		graphJSON = json.dumps(plotly_fig, cls=plotly.utils.PlotlyJSONEncoder)
+		gjsons.append(graphJSON)
+	return gjsons
+
 
 def specific_code(s):
 	iso3_codes = s.to_list()
