@@ -21,3 +21,17 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/#fiona
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal
 * cd into the wheels/ folder
 * pip install <wheel_file_name>
+
+
+### For main2.py
+* running this instead of main.py will create a database
+* First pip install flask_sqlalchemy
+* open a new terminal in the same folder and enter the following commands
+* > python (this will open python)
+* >>>from main import db
+* >>>db.create_all()
+* >>>exit()
+* This will create twitter.db in the folder 
+* now run the main.py and open the localhost:<port_num>/home
+* open https://inloop.github.io/sqlite-viewer/ and upload twitter.db
+* Here we can see the database getting updated with the real-time twitter data
