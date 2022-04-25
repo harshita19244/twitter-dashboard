@@ -1,6 +1,7 @@
 from ast import keyword
 from email.policy import default
 from flask import Flask, render_template
+# from aioflask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
@@ -19,7 +20,10 @@ import matplotlib.pyplot as plt
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 matplotlib.use('Agg')
+import sqlite3
 import time
+import asyncio
+import threading
 
 import geoheatmap
 
@@ -81,21 +85,19 @@ def func(Topic,Count):
     print(df["User_location"])
     df.to_csv("TweetDataset.csv",index=False)
 
+df_2 = None #The dataframe gets updated after every 5 seconds
+
 def realTimeTweets():
     auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
     auth.set_access_token( access_token , access_token_secret )
     api = tweepy.API(auth)
     class Listener(tweepy.Stream):
-        tweets = [] #store the tweets
-        # limit = 100 #Set the limit to number of tweets
-        #further improve this to tweet delay
+
+        tweet_str = ""
 
         def on_status(self, status):
-            self.tweets.append(status)
+            
             if not status.truncated:
-                
-                print([status.created_at,status.user.name,status.user.verified,status.text,status.favorite_count
-                ,status.retweet_count,status.user.location])
 
                 tweet_1 = Twitter(date = status.created_at,user = status.user.name,isVerified = status.user.verified,tweet = status.text,likes = status.favorite_count
                 ,rt = status.retweet_count,location = status.user.location)
@@ -103,19 +105,15 @@ def realTimeTweets():
                 db.session.commit()
 
             else:
-            
-                print([status.created_at,status.user.name,status.user.verified,status.extended_tweet['full_text'],status.favorite_count
-                ,status.retweet_count,status.user.location])
 
                 tweet_1 = Twitter(date = status.created_at,user = status.user.name,isVerified = status.user.verified,tweet = status.extended_tweet['full_text'],likes = status.favorite_count
                 ,rt = status.retweet_count,location = status.user.location)
                 db.session.add(tweet_1)
                 db.session.commit()
 
-            time.sleep(1)
-            
-            # if len(self.tweets) == self.limit:
-            #     self.disconnect()
+            time.sleep(5)
+            df_2 = dbtodf()
+            print(df_2)
     
     stream_tweet = Listener(consumer_key, consumer_secret,access_token,access_token_secret)
 
@@ -123,13 +121,27 @@ def realTimeTweets():
     stream_tweet.filter(track=keywords)
 
 
+def dbtodf():
+    #This function takes the twitter.db file and converts all the data inside it to a dataframe
+    #This is done as all the functions take Dataframe as input
+    #This Will return the dataframe of the twitter.db when it is called
+
+    cnx = sqlite3.connect('twitter.db')
+
+    df = pd.read_sql_query("SELECT * FROM 'twitter'", cnx)
+
+    return df
+
 
 
     
 @app.route('/home',methods = ['GET'])
 def get_home():
-    realTimeTweets()
+    threading.Thread(target=realTimeTweets).start()
     return render_template('primary.html')
+
+    
+    
     
 @app.route('/wordcloud')
 def view_wordcloud():
