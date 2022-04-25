@@ -50,8 +50,8 @@ def func(Topic,Count):
             df.loc[i,"Likes"] = tweet.favorite_count
             df.loc[i,"RT"] = tweet.retweet_count
             df.loc[i,"User_location"] = tweet.user.location
-            df.loc[i,"Coordinates"] = tweet.coordinates
-            df.loc[i,"Places"] = tweet.place
+            # df.loc[i,"Coordinates"] = tweet.coordinates
+            # df.loc[i,"Places"] = tweet.place
             #df.to_csv("TweetDataset.csv",index=False)
             #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
             i = i+1
@@ -112,12 +112,13 @@ def view_bargraph():
 
 @app.route('/geoheatmap')
 def view_geoheatmap():
+    func('Fake',500)
     graphJSON, urls, names = geoheatmap.create_geoheatmap()
     return render_template('geoheatmap.html', url = urls, name = names, graphJSON=graphJSON)
 
 
 @app.route("/query5")
-def plot_category():
+def plot_users():
     func('Fake',20)
     data = df
     

@@ -31,7 +31,7 @@
           <li class="services">
             <a href="/"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
             <ul class="dropdown">
-            <li><a href="/">Dominant User data</a></li>
+            <li><a href="{{ url_for('plot_users') }}">Dominant User data</a></li>
             <li><a href="{{ url_for('view_bargraph') }}">Dominant Categories</a></li>
             <li><a href="{{ url_for('view_wordcloud') }}">Categorical Wordclouds</a></li>
             <li><a href="{{ url_for('view_geoheatmap') }}">Categorical Geolocation Heatmap</a></li>
