@@ -28,10 +28,11 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal
 * First pip install flask_sqlalchemy
 * open a new terminal in the same folder and enter the following commands
 * > python (this will open python)
-* >>>from main import db
-* >>>db.create_all()
-* >>>exit()
+* >>from main import db
+* >>db.create_all()
+* >>exit()
 * This will create twitter.db in the folder 
 * now run the main.py and open the localhost:<port_num>/home
 * open https://inloop.github.io/sqlite-viewer/ and upload twitter.db
 * Here we can see the database getting updated with the real-time twitter data
+* This data is stored in the dataframe variable df_2, which is defined globally, so use df_2 for wordcloud,geoplots etc
