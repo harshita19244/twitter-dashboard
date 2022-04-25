@@ -12,7 +12,7 @@ def caller(test):
     maxlen = 20
     batch_size = 512
     embedding_dims = 50
-    SAVED_DIR = "./saved_models/fakeddit/2way"
+    SAVED_DIR = "./saved_models/fakeddit/2way/"
     data = "fakeddit"
     model2 = TextAttBiRNN(maxlen, max_features, embedding_dims, class_num = 3, last_activation= 'softmax')
     model2.compile('adam', 'categorical_crossentropy', metrics=['accuracy'])
