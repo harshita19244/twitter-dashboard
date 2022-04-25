@@ -14,7 +14,7 @@ def caller(test):
     embedding_dims = 50
     SAVED_DIR = "./saved_models/fakeddit/2way/"
     data = "fakeddit"
-    model2 = TextAttBiRNN(maxlen, max_features, embedding_dims, class_num = 3, last_activation= 'softmax')
+    model2 = TextAttBiRNN(maxlen, max_features, embedding_dims, class_num = 2, last_activation= 'softmax')
     model2.compile('adam', 'categorical_crossentropy', metrics=['accuracy'])
     model2.load_weights(SAVED_DIR)
     # test = test.dropna()
