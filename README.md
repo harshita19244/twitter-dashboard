@@ -28,7 +28,7 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal
 * First pip install flask_sqlalchemy
 * open a new terminal in the same folder and enter the following commands
 * > python (this will open python)
-* >>from main import db
+* >>from main2 import db
 * >>db.create_all()
 * >>exit()
 * This will create twitter.db in the folder 
