@@ -14,4 +14,31 @@
             <input type="submit">
         </form>
     </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
+        <h2>***** ***** *****</h2>
+    </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
+        <h2>CLASSIFICATION</h2>
+        <h4>Text: {{tweet}}</h4>
+    </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
+        <h3>HSOL: hate | offensive | none</h3>
+        <h4>{{names[0]}}</h4>
+    </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
+        <h3>Fakeddit 2-way: true | false</h3>
+        <h4>{{names[1]}}</h4>
+    </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
+        <h3>Fakeddit 6-way: true | satire | misleading | false | imposter | manipulated</h3>
+        <h4>{{names[2]}}</h4>
+    </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
+        <h3>Implicit 3-way: explicit | implicit | not hate</h3>
+        <h4>{{names[3]}}</h4>
+    </div>
+    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
+        <h3>Implicit 6-way: incitement | inferiority | irony | stereotypical | threatening | white grievance</h3>
+        <h4>{{names[4]}}</h4>
+    </div>
 {% endblock %}

@@ -34,6 +34,7 @@ import asyncio
 import threading
 import categorical_wordcloud
 import geoheatmap
+import input_tweet
 
 consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
 consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
@@ -121,6 +122,7 @@ def realTimeTweets():
             time.sleep(5)
             df = dbtodf()
             print(df)
+            print(df.columns)
     
     stream_tweet = Listener(consumer_key, consumer_secret,access_token,access_token_secret)
 
@@ -142,12 +144,12 @@ def dbtodf():
     
 @app.route('/home',methods = ['GET'])
 def get_home():
-    threading.Thread(target=realTimeTweets).start()
+    # threading.Thread(target=realTimeTweets).start()
     return render_template('primary.html')
     
 @app.route('/wordcloud')
 def view_wordcloud():
-    realTimeTweets()
+    # realTimeTweets()
     names, urls = categorical_wordcloud.create_wordcloud(df)
     return render_template('index.html', url = urls, name = names)
 
@@ -167,7 +169,7 @@ def view_bargraph():
 
 @app.route('/geoheatmap')
 def view_geoheatmap():
-    realTimeTweets()
+    # realTimeTweets()
     graphJSON, urls, names = geoheatmap.create_geoheatmap()
     return render_template('geoheatmap.html', url = urls, name = names, graphJSON=graphJSON)
 
@@ -233,7 +235,60 @@ def classify_inputtext():
         text = request.form['text']
         # processed_text = text.upper()
         processed_text = p.clean(text)
-        return render_template('inputtext.html')
+        predictions = input_tweet.classify_input_tweet(processed_text)
+
+        # hsol
+
+        if predictions[0] == 0:
+                predictions[0] = 'hate'
+        elif predictions[0] == 1:
+                predictions[0] = 'offensive'
+        elif predictions[0] == 2:
+                predictions[0] = 'none'
+
+        # fakeddit
+
+        if predictions[1] == 0:
+                predictions[1] = 'true'
+        elif predictions[1] == 1:
+                predictions[1] = 'false'
+
+        if predictions[2] == 0:
+                predictions[2] = 'true'
+        elif predictions[2] == 1:
+                predictions[2] = 'satire'
+        elif predictions[2] == 2:
+                predictions[2] = 'misleading'
+        elif predictions[2] == 3:
+                predictions[2] = 'false'
+        elif predictions[2] == 4:
+                predictions[2] = 'imposter'
+        elif predictions[2] == 5:
+                predictions[2] = 'manipulated'
+
+        # implicit
+
+        if predictions[3] == 0:
+                predictions[3] = 'explicit hate'
+        elif predictions[3] == 1:
+                predictions[3] = 'implicit hate'
+        elif predictions[3] == 2:
+                predictions[3] = 'not hate'
+
+        if predictions[4] == 0:
+                predictions[4] = 'incitement'
+        elif predictions[4] == 1:
+                predictions[4] = 'inferiority'
+        elif predictions[4] == 2:
+                predictions[4] = 'irony'
+        elif predictions[4] == 3:
+                predictions[4] = 'stereotypical'
+        elif predictions[4] == 4:
+                predictions[4] = 'threatening'
+        elif predictions[4] == 5:
+                predictions[4] = 'white grievance'
+
+        return render_template('inputtext.html', tweet = processed_text, names = predictions)
     else:
         return render_template('inputtext.html')
 
