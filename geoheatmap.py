@@ -6,12 +6,12 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import fiona
 import json
-# import plotly
-# import plotly.express as px
-# import plotly.tools as tls
+import plotly
+import plotly.express as px
+import plotly.tools as tls
 
 
-def create_geoheatmap(data):
+def create_geoheatmap():
 	data = pd.read_csv('countries_of_the_world.csv')
 	geo_df = map()
 	geo_df = country_codes(geo_df)

@@ -26,6 +26,7 @@ import asyncio
 import threading
 import categorical_wordcloud
 import geoheatmap
+import input_tweet
 import json
 import plotly
 import plotly.express as px
@@ -34,7 +35,8 @@ from models.fakeddit_2 import caller as cl2
 from models.fakeddit_6 import caller as cl3
 from models.implicit_3 import caller as cl4
 from models.implicit_6 import caller as cl5
-
+import logging
+import preprocessor as p
 
 consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
 consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
@@ -125,9 +127,6 @@ def realTimeTweets():
             df_5 = dbtodf()
             print(df_5)
             print(df_5.columns)
-            time.sleep(5)
-            df = dbtodf()
-            print(df)
     
     stream_tweet = Listener(consumer_key, consumer_secret,access_token,access_token_secret)
 
@@ -160,26 +159,7 @@ def view_wordcloud():
 
 @app.route('/bargraph')
 def view_bargraph():
-<<<<<<< HEAD
     df = dbtodf()
-    i = 0
-    tweets = df['Tweet']
-    for i in range(len(labels)):
-        labels[i] += np.random.randint(0,6)
-        i = i + 1 
-    x_axis= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
-    plt.bar(x_axis, labels,color=['cyan','red','purple','green', 'blue', 'black'])
-    plt.savefig('./static/images/bar_plot.png')
-    return render_template('index.html', name = 'bar_plot', url = './static/images/bar_plot.png')
-
-
-@app.route('/geoheatmap')
-def view_geoheatmap():
-    # realTimeTweets()
-    df = dbtodf()
-    graphJSON, urls, names = geoheatmap.create_geoheatmap(df)
-=======
-    func('Fake',20)
     pred = cl2(df)
     pred= pred['Category']
     # print("printing predictions")
@@ -189,7 +169,11 @@ def view_geoheatmap():
         labels1[pp]=labels1[pp]+1
     print(labels1)
     x_axis1= ['Fake', 'Not Fake']
-    fig = px.bar(x=x_axis1, y=labels1,width=400, height=500, color=['cyan','red'])
+    fig = px.bar(x=x_axis1, y=labels1,width=400, height=500, color=['cyan','red'],labels={'x':'Category', 'y':'Categorical_Count'})
+    fig.update_layout(
+    xaxis_title="Category",
+    yaxis_title="Categorical_Count"
+)
     fig.update_layout(showlegend=False)
     graphJSON1 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
@@ -202,8 +186,12 @@ def view_geoheatmap():
         labels2[pp]=labels2[pp]+1
     print(labels2)
     x_axis2= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
-    fig = px.bar(x=x_axis2, y=labels2,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'])
+    fig = px.bar(x=x_axis2, y=labels2,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'],labels={'x':'Category', 'y':'Categorical_Count'})
     fig.update_layout(showlegend=False)
+    fig.update_layout(
+    xaxis_title="Category",
+    yaxis_title="Categorical_Count"
+)
     graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     pred = cl4(df)
@@ -214,9 +202,13 @@ def view_geoheatmap():
         pp= pred[i]
         labels3[pp]=labels3[pp]+1
     print(labels2)
-    x_axis3= ['0', '1','2']
-    fig = px.bar(x=x_axis3, y=labels3,width=400, height=500, color=['cyan','red','purple'])
+    x_axis3= ['Expicit', 'Implicit','Not Hate']
+    fig = px.bar(x=x_axis3, y=labels3,width=400, height=500, color=['cyan','red','purple'],labels={'x':'Category', 'y':'Categorical_Count'})
     fig.update_layout(showlegend=False)
+    fig.update_layout(
+    xaxis_title="Category",
+    yaxis_title="Categorical_Count"
+)
     graphJSON3 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     pred = cl5(df)
@@ -227,9 +219,13 @@ def view_geoheatmap():
         pp= pred[i]
         labels4[pp]=labels4[pp]+1
     print(labels4)
-    x_axis4= ['0', '1','2','3','4','5']
-    fig = px.bar(x=x_axis4, y=labels4,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'])
+    x_axis4= [ "incitement" ,"inferiority" , "irony" , "stereotypical" , "threatening" ,"white grievance"]
+    fig = px.bar(x=x_axis4, y=labels4,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'],labels={'x':'Category', 'y':'Categorical_Count'})
     fig.update_layout(showlegend=False)
+    fig.update_layout(
+    xaxis_title="Category",
+    yaxis_title="Categorical_Count"
+)
     graphJSON4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     # return render_template('index.html', name = 'wordcloud_plot', url ='/static/images/wordcloud_plot.png')
@@ -250,6 +246,7 @@ def view_dispersion():
 @app.route("/query5")
 def plot_users():
     df = dbtodf()
+    # func('Fake',10000)
     data = cl3(df)
     count=[0,0,0,0,0,0]
     for i in range(len(count)):
@@ -258,7 +255,7 @@ def plot_users():
 
     #data2=cl3(df)
     for i in count:
-        app.logger.info("manasvi")
+        app.logger.info("count")
         app.logger.info(i)
     #app.logger.info(data2.loc[0])
     
@@ -343,6 +340,8 @@ def plot_users():
     
     sorted_likes_count_0=get_0_data.drop_duplicates("User")
     sorted_likes_count_0=sorted_likes_count_0.sort_values("Likes",ascending=False)
+    app.logger.info("count_likes 0")
+    app.logger.info(len(sorted_likes_count_0))
     sorted_likes_count_0=sorted_likes_count_0[0:5]
     fig = px.bar(x=sorted_likes_count_0["User"], y=sorted_likes_count_0["Likes"])
     app.logger.info('after plotting fig')
@@ -354,8 +353,8 @@ def plot_users():
     '''
     sorted_likes_count_1=get_1_data.drop_duplicates("User")
     sorted_likes_count_1=sorted_likes_count_1.sort_values("Likes",ascending=False)
-    sorted_likes_count_1=sorted_likes_count_1[1:5]
-    app.logger.info("sorted length")
+    sorted_likes_count_1=sorted_likes_count_1[0:5]
+    app.logger.info("count likes 1")
     app.logger.info(len(sorted_likes_count_1))
     fig = px.bar(x=sorted_likes_count_1["User"], y=sorted_likes_count_1["Likes"])
     app.logger.info('after plotting fig')
@@ -367,7 +366,9 @@ def plot_users():
     '''
     sorted_likes_count_2=get_2_data.drop_duplicates("User")
     sorted_likes_count_2=sorted_likes_count_2.sort_values("Likes",ascending=False)
-    sorted_likes_count_2=sorted_likes_count_2[2:5]
+    app.logger.info("count_likes 2")
+    app.logger.info(len(sorted_likes_count_2))
+    sorted_likes_count_2=sorted_likes_count_2[0:5]
     fig = px.bar(x=sorted_likes_count_2["User"], y=sorted_likes_count_2["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -378,7 +379,9 @@ def plot_users():
 
     sorted_likes_count_3=get_3_data.drop_duplicates("User")
     sorted_likes_count_3=sorted_likes_count_3.sort_values("Likes",ascending=False)
-    sorted_likes_count_3=sorted_likes_count_3[3:5]
+    app.logger.info("count_likes 3")
+    app.logger.info(len(sorted_likes_count_3))
+    sorted_likes_count_3=sorted_likes_count_3[0:5]
     fig = px.bar(x=sorted_likes_count_3["User"], y=sorted_likes_count_3["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -389,7 +392,9 @@ def plot_users():
 
     sorted_likes_count_4=get_4_data.drop_duplicates("User")
     sorted_likes_count_4=sorted_likes_count_4.sort_values("Likes",ascending=False)
-    sorted_likes_count_4=sorted_likes_count_4[4:5]
+    app.logger.info("count_likes 4")
+    app.logger.info(len(sorted_likes_count_4))
+    sorted_likes_count_4=sorted_likes_count_4[0:5]
     fig = px.bar(x=sorted_likes_count_4["User"], y=sorted_likes_count_4["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -397,10 +402,12 @@ def plot_users():
     fig.update_layout(showlegend=False)
     fig.update_layout(xaxis={'showticklabels': False})
     graphJSON_likes_4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    '''
+    
     sorted_likes_count_5=get_5_data.drop_duplicates("User")
     sorted_likes_count_5=sorted_likes_count_5.sort_values("Likes",ascending=False)
-    sorted_likes_count_5=sorted_likes_count_5[5:5]
+    app.logger.info("count_likes 5")
+    app.logger.info(len(sorted_likes_count_5))
+    sorted_likes_count_5=sorted_likes_count_5[0:5]
     fig = px.bar(x=sorted_likes_count_5["User"], y=sorted_likes_count_5["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -408,17 +415,14 @@ def plot_users():
     fig.update_layout(showlegend=False)
     fig.update_layout(xaxis={'showticklabels': False})
     graphJSON_likes_5 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    '''
+    
 
-    return render_template('query10.html', graphJSON0=graphJSON0, graphJSON1=graphJSON0, graphJSON2=graphJSON2, graphJSON3=graphJSON3, graphJSON4=graphJSON4,graphJSON5=graphJSON5,graphJSON_likes_0=graphJSON_likes_0,graphJSON_likes_1=graphJSON_likes_0,graphJSON_likes_2=graphJSON_likes_2,graphJSON_likes_3=graphJSON_likes_3,graphJSON_likes_4=graphJSON_likes_4,graphJSON_likes_5=graphJSON_likes_4)
-
-    # return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
+    return render_template('query10.html', graphJSON0=graphJSON0, graphJSON1=graphJSON0, graphJSON2=graphJSON2, graphJSON3=graphJSON3, graphJSON4=graphJSON4,graphJSON5=graphJSON5,graphJSON_likes_0=graphJSON_likes_0,graphJSON_likes_1=graphJSON_likes_0,graphJSON_likes_2=graphJSON_likes_2,graphJSON_likes_3=graphJSON_likes_3,graphJSON_likes_4=graphJSON_likes_4,graphJSON_likes_5=graphJSON_likes_5)
 
 @app.route('/inputtext', methods=['GET', 'POST'])
 def classify_inputtext():
     if request.method == 'POST':
         text = request.form['text']
-<<<<<<< HEAD
         # processed_text = text.upper()
         processed_text = p.clean(text)
         predictions = input_tweet.classify_input_tweet(processed_text)
