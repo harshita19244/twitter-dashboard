@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
@@ -20,6 +21,9 @@ from models.fakeddit_6 import caller as cl3
 matplotlib.use('Agg')
 
 import geoheatmap
+import json
+import plotly
+import plotly.express as px
 
 consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
 consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
@@ -77,7 +81,7 @@ def view_wordcloud():
     hate_tweets = pred.loc[pred['Category'] == 0]
     offensive_tweets = pred.loc[pred['Category'] == 1]
     none_tweets = pred.loc[pred['Category'] == 2]
-    print(hate_tweets)
+    #print(hate_tweets)
     pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(hate_tweets['Tweet']))
     pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(offensive_tweets['Tweet']))
     pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(none_tweets['Tweet']))
@@ -119,54 +123,169 @@ def view_geoheatmap():
 
 @app.route("/query5")
 def plot_users():
-    func('Fake',20)
-    data = df
+    func('Fake',10000)
+    data = cl3(df)
+    count=[0,0,0,0,0,0]
+    for i in range(len(count)):
+        count[i]=len(data.loc[data['Category']==i])
     
-    data['tweet_label']=0
-    for i in range(len(data)):
-        data['tweet_label'] = np.random.randint(0,6)
-        i = i + 1 
+
+    #data2=cl3(df)
+    for i in count:
+        app.logger.info("manasvi")
+        app.logger.info(i)
+    #app.logger.info(data2.loc[0])
     
-    #ploting
-    category = 0
-    #request.form['category']
-    
-    get_0_data=data.loc[data['tweet_label']==0]
+
+    get_0_data=data.loc[data['Category']==0]
     sorted_0=get_0_data.groupby("User").size()
     sorted_0=sorted_0.sort_values(ascending=False)
     sorted_0=sorted_0[0:5]
-    plt.bar(sorted_0.index,sorted_0,color='black')
-    plt.savefig("./static/images/bar_plot_category_0.png")
-
-    get_1_data=data.loc[data['tweet_label']==1]
+    fig = px.bar(x=sorted_0.index, y=sorted_0)
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
+    fig.update_layout(showlegend=False)
+    #fig.update_layout(yaxis={'visible': False, 'showticklabels': False})
+    fig.update_layout(xaxis={'showticklabels': False})    
+    graphJSON0 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    '''
+    get_1_data=data.loc[data['Category']==1]
     sorted_1=get_1_data.groupby("User").size()
-
     sorted_1=sorted_1.sort_values(ascending=False)
     sorted_1=sorted_1[0:5]
-    plt.bar(sorted_1.index,sorted_1,color='black')
-    plt.savefig("./static/images/bar_plot_category_1.png")
-    
-    get_2_data=data.loc[data['tweet_label']==2]
+    fig = px.bar(x=sorted_1.index, y=sorted_1)
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
+    fig.update_layout(showlegend=False)
+    #fig.update_layout(yaxis={'visible': False, 'showticklabels': False})
+    fig.update_layout(xaxis={'showticklabels': False})    
+    graphJSON1 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    '''
+    get_2_data=data.loc[data['Category']==2]
     sorted_2=get_2_data.groupby("User").size()
+    sorted_2=sorted_2.sort_values(ascending=False)
+    sorted_2=sorted_2[0:5]
+    fig = px.bar(x=sorted_2.index, y=sorted_2)
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
+    fig.update_layout(showlegend=False)
+    #fig.update_layout(yaxis={'visible': False, 'showticklabels': False})
+    fig.update_layout(xaxis={'showticklabels': False})    
+    graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    
+    get_3_data=data.loc[data['Category']==3]
+    sorted_3=get_3_data.groupby("User").size()
+    sorted_3=sorted_3.sort_values(ascending=False)
+    sorted_3=sorted_3[0:5]
+    fig = px.bar(x=sorted_3.index, y=sorted_3)
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
+    fig.update_layout(showlegend=False)
+    #fig.update_layout(yaxis={'visible': False, 'showticklabels': False})
+    fig.update_layout(xaxis={'showticklabels': False})    
+    graphJSON3 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-
+    get_4_data=data.loc[data['Category']==4]
+    sorted_4=get_4_data.groupby("User").size()
+    sorted_4=sorted_4.sort_values(ascending=False)
+    sorted_4=sorted_4[0:5]
+    app.logger.info(sorted_4.index)
+    app.logger.info(len(sorted_4[0:5]))
+    app.logger.info('before plotting fig')
+    fig = px.bar(x=sorted_4.index, y=sorted_4)
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    
+    get_5_data=data.loc[data['Category']==5]
+    sorted_5=get_5_data.groupby("User").size()
+    sorted_5=sorted_5.sort_values(ascending=False)
+    sorted_5=sorted_5[0:5]
+    app.logger.info(sorted_5.index)
+    app.logger.info(len(sorted_5[0:5]))
+    app.logger.info('before plotting fig')
+    fig = px.bar(x=sorted_5.index, y=sorted_5)
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON5 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    
     sorted_likes_count_0=get_0_data.drop_duplicates("User")
     sorted_likes_count_0=sorted_likes_count_0.sort_values("Likes",ascending=False)
     sorted_likes_count_0=sorted_likes_count_0[0:5]
-    plt.bar(sorted_likes_count_0["User"],sorted_likes_count_0["Likes"],color='black')
-    plt.savefig("./static/images/bar_plot_category_0_followers.png")
+    fig = px.bar(x=sorted_likes_count_0["User"], y=sorted_likes_count_0["Likes"])
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# Likes")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON_likes_0 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    '''
+    sorted_likes_count_1=get_1_data.drop_duplicates("User")
+    sorted_likes_count_1=sorted_likes_count_1.sort_values("Likes",ascending=False)
+    sorted_likes_count_1=sorted_likes_count_1[1:5]
+    app.logger.info("sorted length")
+    app.logger.info(len(sorted_likes_count_1))
+    fig = px.bar(x=sorted_likes_count_1["User"], y=sorted_likes_count_1["Likes"])
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# Likes")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON_likes_1 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    '''
+    sorted_likes_count_2=get_2_data.drop_duplicates("User")
+    sorted_likes_count_2=sorted_likes_count_2.sort_values("Likes",ascending=False)
+    sorted_likes_count_2=sorted_likes_count_2[2:5]
+    fig = px.bar(x=sorted_likes_count_2["User"], y=sorted_likes_count_2["Likes"])
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# Likes")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON_likes_2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-    sorted_followers_count_1=get_1_data.drop_duplicates("User")
-    sorted_followers_count_1=sorted_followers_count_1.sort_values("Likes",ascending=False)
-    sorted_followers_count_1=sorted_followers_count_1[0:5]
-    plt.bar(sorted_followers_count_1["User"].index,sorted_followers_count_1["Likes"],color='black')
-    plt.savefig("./static/images/bar_plot_category_1_followers.png")    
+    sorted_likes_count_3=get_3_data.drop_duplicates("User")
+    sorted_likes_count_3=sorted_likes_count_3.sort_values("Likes",ascending=False)
+    sorted_likes_count_3=sorted_likes_count_3[3:5]
+    fig = px.bar(x=sorted_likes_count_3["User"], y=sorted_likes_count_3["Likes"])
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# Likes")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON_likes_3 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
+    sorted_likes_count_4=get_4_data.drop_duplicates("User")
+    sorted_likes_count_4=sorted_likes_count_4.sort_values("Likes",ascending=False)
+    sorted_likes_count_4=sorted_likes_count_4[4:5]
+    fig = px.bar(x=sorted_likes_count_4["User"], y=sorted_likes_count_4["Likes"])
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# Likes")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON_likes_4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    '''
+    sorted_likes_count_5=get_5_data.drop_duplicates("User")
+    sorted_likes_count_5=sorted_likes_count_5.sort_values("Likes",ascending=False)
+    sorted_likes_count_5=sorted_likes_count_5[5:5]
+    fig = px.bar(x=sorted_likes_count_5["User"], y=sorted_likes_count_5["Likes"])
+    app.logger.info('after plotting fig')
+    fig.update_coloraxes(showscale=False)
+    fig.update_layout(xaxis_title="Users",yaxis_title="# Likes")
+    fig.update_layout(showlegend=False)
+    fig.update_layout(xaxis={'showticklabels': False})
+    graphJSON_likes_5 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    '''
 
-    a,b,c,d="/static/images/bar_plot_category_0.png","/static/images/bar_plot_category_1.png","/static/images/bar_plot_category_0_followers.png","/static/images/bar_plot_category_1_followers.png"
-    return render_template('query10.html',name = 'new_plot', img1=a,img2=b,img3=c,img4=d)
+    return render_template('query10.html', graphJSON0=graphJSON0, graphJSON1=graphJSON0, graphJSON2=graphJSON2, graphJSON3=graphJSON3, graphJSON4=graphJSON4,graphJSON5=graphJSON5,graphJSON_likes_0=graphJSON_likes_0,graphJSON_likes_1=graphJSON_likes_0,graphJSON_likes_2=graphJSON_likes_2,graphJSON_likes_3=graphJSON_likes_3,graphJSON_likes_4=graphJSON_likes_4,graphJSON_likes_5=graphJSON_likes_4)
 
-    # return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
 
 @app.route('/inputtext', methods=['GET', 'POST'])
 def classify_inputtext():
