@@ -18,13 +18,14 @@ from tweepy import OAuthHandler
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib
 import matplotlib.pyplot as plt
-<<<<<<< Updated upstream
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import subprocess
 from models.hsol import caller as cl1
 from models.fakeddit_2 import caller as cl2
 from models.fakeddit_6 import caller as cl3
+from models.implicit_3 import caller as cl4
+from models.implicit_6 import caller as cl5
 import preprocessor as p
 matplotlib.use('Agg')
 import sqlite3
