@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Layer
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Embedding, Dense, LSTM, Bidirectional
 import pickle
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import preprocessor as p
 import pandas as pd
 import numpy as np

@@ -1,6 +1,6 @@
 from torch import mode
 import pickle
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import preprocessor as p
 import pandas as pd
 import numpy as np
