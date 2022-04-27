@@ -172,7 +172,7 @@ input[type=checkbox]{
 }
 
 .card:hover {
-  transform: translate3D(0,-1px,0) scale(1.15);
+  transform: translate3D(0,-1px,0) scale(1.05);
 }
 
 /* Responsive columns - one column layout (vertical) on small screens */

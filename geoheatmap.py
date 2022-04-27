@@ -11,7 +11,7 @@ import plotly.express as px
 import plotly.tools as tls
 
 
-def create_geoheatmap():
+def create_geoheatmap(data):
 	data = pd.read_csv('countries_of_the_world.csv')
 	geo_df = map()
 	geo_df = country_codes(geo_df)
@@ -19,7 +19,8 @@ def create_geoheatmap():
 	df = pd.merge(left=geo_df, right=data, how='left', left_on='iso2_code', right_on='iso2_code')
 	df.fillna(0, inplace=True)
 	df['Density (per sq. mi.)'] = round(df['Population']/df['Area (sq. mi.)'], 2)
-	cols = ['Population', 'Area (sq. mi.)', 'GDP ($ per capita)', 'Density (per sq. mi.)']
+	# data.rename(columns = {'Population', 'Area (sq. mi.)', 'GDP ($ per capita)', 'Density (per sq. mi.)'}, inplace = True)
+	cols = ['Population', 'Area (sq. mi.)', 'GDP ($ per capita)', 'Density (per sq. mi.)', 'Population']
 	gjsons = create_maps(df, cols)
 	urls = generate_urls(4)
 	return gjsons, urls, cols
@@ -58,6 +59,7 @@ def create_maps(df, cols):
                geojson=df.geometry,
                locations=df.index,
                color=col,
+               # hover_data=["Bergeron", "Coderre", "Joly"],
                projection="mercator"
         )
 		plotly_fig.update_geos(fitbounds="locations", visible=False)
