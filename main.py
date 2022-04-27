@@ -1,11 +1,5 @@
-
 import logging
-
-from ast import keyword
-from email.policy import default
-
 from flask import Flask, render_template
-# from aioflask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
@@ -15,30 +9,18 @@ import pandas as pd
 from os import path
 from PIL import Image
 import re
-from sqlalchemy import null
-from torch import real
 import tweepy
 from tweepy import OAuthHandler
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib
 import matplotlib.pyplot as plt
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 import subprocess
 from models.hsol import caller as cl1
 from models.fakeddit_2 import caller as cl2
 from models.fakeddit_6 import caller as cl3
-from models.implicit_3 import caller as cl4
-from models.implicit_6 import caller as cl5
-import preprocessor as p
 matplotlib.use('Agg')
-import sqlite3
-import time
-import asyncio
-import threading
-import categorical_wordcloud
+
 import geoheatmap
-import input_tweet
 import json
 import plotly
 import plotly.express as px
@@ -53,118 +35,74 @@ labels= [0,0,0,0,0,0]
 tags = ['True', 'Satire', 'Misleading', 'Manipulated', 'False', 'Impostor']
 app = Flask(__name__)
 
-#Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///twitter.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-class Twitter(db.Model):
-    sno = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime,  nullable=False, default = datetime.utcnow)
-    user = db.Column(db.String(80),nullable=False)
-    isVerified = db.Column(db.Boolean,default=False)
-    tweet = db.Column(db.String(150),nullable = False)
-    likes = db.Column(db.Integer,nullable = False)
-    rt = db.Column(db.Integer,nullable =False)
-    location = db.Column(db.String(100))
-
-    def __repr__(self) -> str:
-        return f"{self.user}-{self.tweet}"
 
 
-# def func(Topic,Count):
+def func(Topic,Count):
 
-#     # Use the above credentials to authenticate the API.
-#     i = 0
-#     auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
-#     auth.set_access_token( access_token , access_token_secret )
-#     api = tweepy.API(auth)
-#     for tweet in tweepy.Cursor(api.search_tweets, q=Topic, count=5000, lang="en", exclude='retweets').items(5000):
-#             #time.sleep(0.1)
-#             #my_bar.progress(i)
-#             df.loc[i,"Date"] = tweet.created_at
-#             df.loc[i,"User"] = tweet.user.name
-#             df.loc[i,"IsVerified"] = tweet.user.verified
-#             df.loc[i,"Tweet"] = tweet.text
-#             df.loc[i,"Likes"] = tweet.favorite_count
-#             df.loc[i,"RT"] = tweet.retweet_count
-#             df.loc[i,"User_location"] = tweet.user.location
-#             df.loc[i,"Coordinates"] = tweet.coordinates
-#             df.loc[i,"Places"] = tweet.place
-#             #df.to_csv("TweetDataset.csv",index=False)
-#             #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
-#             i = i+1
-#             if i > Count:
-#                 break
-#             else:
-#                 pass
-#     print(df["User_location"])
-#     df.to_csv("TweetDataset.csv",index=False)
-
-
-def realTimeTweets():
+    # Use the above credentials to authenticate the API.
+    i = 0
     auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
     auth.set_access_token( access_token , access_token_secret )
     api = tweepy.API(auth)
-    class Listener(tweepy.Stream):
-
-        tweet_str = ""
-
-        def on_status(self, status):
-            
-            if not status.truncated:
-
-                tweet_1 = Twitter(date = status.created_at,user = status.user.name,isVerified = status.user.verified,tweet = status.text,likes = status.favorite_count
-                ,rt = status.retweet_count,location = status.user.location)
-                db.session.add(tweet_1)
-                db.session.commit()
-
+    for tweet in tweepy.Cursor(api.search_tweets, q=Topic, count=5000, lang="en", exclude='retweets').items(5000):
+            #time.sleep(0.1)
+            #my_bar.progress(i)
+            df.loc[i,"Date"] = tweet.created_at
+            df.loc[i,"User"] = tweet.user.name
+            df.loc[i,"IsVerified"] = tweet.user.verified
+            df.loc[i,"Tweet"] = tweet.text
+            df.loc[i,"Likes"] = tweet.favorite_count
+            df.loc[i,"RT"] = tweet.retweet_count
+            df.loc[i,"User_location"] = tweet.user.location
+            # df.loc[i,"Coordinates"] = tweet.coordinates
+            # df.loc[i,"Places"] = tweet.place
+            #df.to_csv("TweetDataset.csv",index=False)
+            #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
+            i = i+1
+            if i > Count:
+                break
             else:
-
-                tweet_1 = Twitter(date = status.created_at,user = status.user.name,isVerified = status.user.verified,tweet = status.extended_tweet['full_text'],likes = status.favorite_count
-                ,rt = status.retweet_count,location = status.user.location)
-                db.session.add(tweet_1)
-                db.session.commit()
-
-            time.sleep(5)
-            df = dbtodf()
-            print(df)
-            print(df.columns)
-    
-    stream_tweet = Listener(consumer_key, consumer_secret,access_token,access_token_secret)
-
-    keywords = ["#news","muslim","church","trump"]
-    stream_tweet.filter(track=keywords)
-
-
-def dbtodf():
-    #This function takes the twitter.db file and converts all the data inside it to a dataframe
-    #This is done as all the functions take Dataframe as input
-    #This Will return the dataframe of the twitter.db when it is called
-
-    cnx = sqlite3.connect('twitter.db')
-
-    df = pd.read_sql_query("SELECT * FROM 'twitter'", cnx)
-
-    return df
-
+                pass
+    # print(df["User_location"]
+    df.to_csv("TweetDataset.csv",index=False)
     
 @app.route('/home',methods = ['GET'])
 def get_home():
-    # threading.Thread(target=realTimeTweets).start()
     return render_template('primary.html')
     
 @app.route('/wordcloud')
 def view_wordcloud():
-    # realTimeTweets()
-    realTimeTweets()
-    names, urls = categorical_wordcloud.create_wordcloud(df)
-    return render_template('index.html', url = urls, name = names)
-
+    func('Hate',20)
+    pred = cl1(df)
+    # 1 - OFFENSIVE
+    # 0 - HATE
+    # 2 - NEITHER
+    #text = df['Tweet'][0]
+    hate_tweets = pred.loc[pred['Category'] == 0]
+    offensive_tweets = pred.loc[pred['Category'] == 1]
+    none_tweets = pred.loc[pred['Category'] == 2]
+    #print(hate_tweets)
+    pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(hate_tweets['Tweet']))
+    pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(offensive_tweets['Tweet']))
+    pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(none_tweets['Tweet']))
+    plt.imshow(pil_img, interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig('./static/images/wordcloud_plot1.png')
+    plt.imshow(pil_img2, interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig('./static/images/wordcloud_plot2.png')
+    plt.imshow(pil_img3, interpolation='bilinear')
+    plt.axis("off")
+    plt.savefig('./static/images/wordcloud_plot3.png')
+    names = []
+    names.append(pil_img);names.append(pil_img2);names.append(pil_img3)
+    urls = []
+    urls.append('./static/images/wordcloud_plot1.png');urls.append('./static/images/wordcloud_plot2.png');urls.append('./static/images/wordcloud_plot3.png')
+    return render_template('index.html', name = names, url =urls)
 
 @app.route('/bargraph')
 def view_bargraph():
-    realTimeTweets()
+    func('Fake',20)
     i = 0
     tweets = df['Tweet']
     for i in range(len(labels)):
@@ -178,14 +116,9 @@ def view_bargraph():
 
 @app.route('/geoheatmap')
 def view_geoheatmap():
-    # realTimeTweets()
+    func('Fake',500)
     graphJSON, urls, names = geoheatmap.create_geoheatmap()
     return render_template('geoheatmap.html', url = urls, name = names, graphJSON=graphJSON)
-
-
-@app.route('/dispersionnetwork',methods=['GET', 'POST'])
-def view_dispersion():
-    return render_template('network.html')
 
 @app.route("/query5")
 def plot_users():
@@ -199,7 +132,7 @@ def plot_users():
 
     #data2=cl3(df)
     for i in count:
-        app.logger.info("manasvi")
+        app.logger.info("count")
         app.logger.info(i)
     #app.logger.info(data2.loc[0])
     
@@ -284,6 +217,8 @@ def plot_users():
     
     sorted_likes_count_0=get_0_data.drop_duplicates("User")
     sorted_likes_count_0=sorted_likes_count_0.sort_values("Likes",ascending=False)
+    app.logger.info("count_likes 0")
+    app.logger.info(len(sorted_likes_count_0))
     sorted_likes_count_0=sorted_likes_count_0[0:5]
     fig = px.bar(x=sorted_likes_count_0["User"], y=sorted_likes_count_0["Likes"])
     app.logger.info('after plotting fig')
@@ -295,8 +230,8 @@ def plot_users():
     '''
     sorted_likes_count_1=get_1_data.drop_duplicates("User")
     sorted_likes_count_1=sorted_likes_count_1.sort_values("Likes",ascending=False)
-    sorted_likes_count_1=sorted_likes_count_1[1:5]
-    app.logger.info("sorted length")
+    sorted_likes_count_1=sorted_likes_count_1[0:5]
+    app.logger.info("count likes 1")
     app.logger.info(len(sorted_likes_count_1))
     fig = px.bar(x=sorted_likes_count_1["User"], y=sorted_likes_count_1["Likes"])
     app.logger.info('after plotting fig')
@@ -308,7 +243,9 @@ def plot_users():
     '''
     sorted_likes_count_2=get_2_data.drop_duplicates("User")
     sorted_likes_count_2=sorted_likes_count_2.sort_values("Likes",ascending=False)
-    sorted_likes_count_2=sorted_likes_count_2[2:5]
+    app.logger.info("count_likes 2")
+    app.logger.info(len(sorted_likes_count_2))
+    sorted_likes_count_2=sorted_likes_count_2[0:5]
     fig = px.bar(x=sorted_likes_count_2["User"], y=sorted_likes_count_2["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -319,7 +256,9 @@ def plot_users():
 
     sorted_likes_count_3=get_3_data.drop_duplicates("User")
     sorted_likes_count_3=sorted_likes_count_3.sort_values("Likes",ascending=False)
-    sorted_likes_count_3=sorted_likes_count_3[3:5]
+    app.logger.info("count_likes 3")
+    app.logger.info(len(sorted_likes_count_3))
+    sorted_likes_count_3=sorted_likes_count_3[0:5]
     fig = px.bar(x=sorted_likes_count_3["User"], y=sorted_likes_count_3["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -330,7 +269,9 @@ def plot_users():
 
     sorted_likes_count_4=get_4_data.drop_duplicates("User")
     sorted_likes_count_4=sorted_likes_count_4.sort_values("Likes",ascending=False)
-    sorted_likes_count_4=sorted_likes_count_4[4:5]
+    app.logger.info("count_likes 4")
+    app.logger.info(len(sorted_likes_count_4))
+    sorted_likes_count_4=sorted_likes_count_4[0:5]
     fig = px.bar(x=sorted_likes_count_4["User"], y=sorted_likes_count_4["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -338,10 +279,12 @@ def plot_users():
     fig.update_layout(showlegend=False)
     fig.update_layout(xaxis={'showticklabels': False})
     graphJSON_likes_4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    '''
+    
     sorted_likes_count_5=get_5_data.drop_duplicates("User")
     sorted_likes_count_5=sorted_likes_count_5.sort_values("Likes",ascending=False)
-    sorted_likes_count_5=sorted_likes_count_5[5:5]
+    app.logger.info("count_likes 5")
+    app.logger.info(len(sorted_likes_count_5))
+    sorted_likes_count_5=sorted_likes_count_5[0:5]
     fig = px.bar(x=sorted_likes_count_5["User"], y=sorted_likes_count_5["Likes"])
     app.logger.info('after plotting fig')
     fig.update_coloraxes(showscale=False)
@@ -349,9 +292,9 @@ def plot_users():
     fig.update_layout(showlegend=False)
     fig.update_layout(xaxis={'showticklabels': False})
     graphJSON_likes_5 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    '''
+    
 
-    return render_template('query10.html', graphJSON0=graphJSON0, graphJSON1=graphJSON0, graphJSON2=graphJSON2, graphJSON3=graphJSON3, graphJSON4=graphJSON4,graphJSON5=graphJSON5,graphJSON_likes_0=graphJSON_likes_0,graphJSON_likes_1=graphJSON_likes_0,graphJSON_likes_2=graphJSON_likes_2,graphJSON_likes_3=graphJSON_likes_3,graphJSON_likes_4=graphJSON_likes_4,graphJSON_likes_5=graphJSON_likes_4)
+    return render_template('query10.html', graphJSON0=graphJSON0, graphJSON1=graphJSON0, graphJSON2=graphJSON2, graphJSON3=graphJSON3, graphJSON4=graphJSON4,graphJSON5=graphJSON5,graphJSON_likes_0=graphJSON_likes_0,graphJSON_likes_1=graphJSON_likes_0,graphJSON_likes_2=graphJSON_likes_2,graphJSON_likes_3=graphJSON_likes_3,graphJSON_likes_4=graphJSON_likes_4,graphJSON_likes_5=graphJSON_likes_5)
 
 
 @app.route('/inputtext', methods=['GET', 'POST'])
