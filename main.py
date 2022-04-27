@@ -1,11 +1,6 @@
-
-import logging
-
 from ast import keyword
-from email.policy import default
-
+import imp
 from flask import Flask, render_template
-# from aioflask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import *
@@ -24,13 +19,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import subprocess
-from models.hsol import caller as cl1
-from models.fakeddit_2 import caller as cl2
-from models.fakeddit_6 import caller as cl3
-from models.implicit_3 import caller as cl4
-from models.implicit_6 import caller as cl5
-import preprocessor as p
 matplotlib.use('Agg')
 import sqlite3
 import time
@@ -38,10 +26,15 @@ import asyncio
 import threading
 import categorical_wordcloud
 import geoheatmap
-import input_tweet
 import json
 import plotly
 import plotly.express as px
+from models.hsol import caller as cl1
+from models.fakeddit_2 import caller as cl2
+from models.fakeddit_6 import caller as cl3
+from models.implicit_3 import caller as cl4
+from models.implicit_6 import caller as cl5
+
 
 consumer_key = "YiqFm45PnIiGtmFuGYEIb0dQj"
 consumer_secret = "zD0CIfO4JCanUqeyJbQ4r3Zw4mCxFTyBYAePnTOjkMrGwz0QLl"
@@ -49,7 +42,10 @@ access_token = "899977011774369795-VDedKBd2KOO0xtmOJZWLqJHognDLZOo"
 access_token_secret = "Nd83xEIqrxFpTj6ThCQ9FaRBzA2NLyjenFcGfIMuaFqFM"
 
 df = pd.DataFrame(columns=["Date","User","IsVerified","Tweet","Likes","RT",'User_location'])
-labels= [0,0,0,0,0,0]
+labels1= [0,0]
+labels2= [0,0,0,0,0,0]
+labels3= [0,0,0]
+labels4= [0,0,0,0,0,0]
 tags = ['True', 'Satire', 'Misleading', 'Manipulated', 'False', 'Impostor']
 app = Flask(__name__)
 
@@ -72,34 +68,34 @@ class Twitter(db.Model):
         return f"{self.user}-{self.tweet}"
 
 
-# def func(Topic,Count):
+def func(Topic,Count):
 
-#     # Use the above credentials to authenticate the API.
-#     i = 0
-#     auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
-#     auth.set_access_token( access_token , access_token_secret )
-#     api = tweepy.API(auth)
-#     for tweet in tweepy.Cursor(api.search_tweets, q=Topic, count=5000, lang="en", exclude='retweets').items(5000):
-#             #time.sleep(0.1)
-#             #my_bar.progress(i)
-#             df.loc[i,"Date"] = tweet.created_at
-#             df.loc[i,"User"] = tweet.user.name
-#             df.loc[i,"IsVerified"] = tweet.user.verified
-#             df.loc[i,"Tweet"] = tweet.text
-#             df.loc[i,"Likes"] = tweet.favorite_count
-#             df.loc[i,"RT"] = tweet.retweet_count
-#             df.loc[i,"User_location"] = tweet.user.location
-#             df.loc[i,"Coordinates"] = tweet.coordinates
-#             df.loc[i,"Places"] = tweet.place
-#             #df.to_csv("TweetDataset.csv",index=False)
-#             #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
-#             i = i+1
-#             if i > Count:
-#                 break
-#             else:
-#                 pass
-#     print(df["User_location"])
-#     df.to_csv("TweetDataset.csv",index=False)
+    # Use the above credentials to authenticate the API.
+    i = 0
+    auth = tweepy.OAuthHandler( consumer_key , consumer_secret )
+    auth.set_access_token( access_token , access_token_secret )
+    api = tweepy.API(auth)
+    for tweet in tweepy.Cursor(api.search_tweets, q=Topic, count=5000, lang="en", exclude='retweets').items(5000):
+            #time.sleep(0.1)
+            #my_bar.progress(i)
+            df.loc[i,"Date"] = tweet.created_at
+            df.loc[i,"User"] = tweet.user.name
+            df.loc[i,"IsVerified"] = tweet.user.verified
+            df.loc[i,"Tweet"] = tweet.text
+            df.loc[i,"Likes"] = tweet.favorite_count
+            df.loc[i,"RT"] = tweet.retweet_count
+            df.loc[i,"User_location"] = tweet.user.location
+            df.loc[i,"Coordinates"] = tweet.coordinates
+            df.loc[i,"Places"] = tweet.place
+            #df.to_csv("TweetDataset.csv",index=False)
+            #df.to_excel('{}.xlsx'.format("TweetDataset"),index=False)   ## Save as Excel
+            i = i+1
+            if i > Count:
+                break
+            else:
+                pass
+    print(df["User_location"])
+    df.to_csv("TweetDataset.csv",index=False)
 
 
 def realTimeTweets():
@@ -129,7 +125,6 @@ def realTimeTweets():
             time.sleep(5)
             df = dbtodf()
             print(df)
-            print(df.columns)
     
     stream_tweet = Listener(consumer_key, consumer_secret,access_token,access_token_secret)
 
@@ -148,37 +143,80 @@ def dbtodf():
 
     return df
 
-    
+
 @app.route('/home',methods = ['GET'])
 def get_home():
-    # threading.Thread(target=realTimeTweets).start()
+    threading.Thread(target=realTimeTweets).start()
     return render_template('primary.html')
     
 @app.route('/wordcloud')
 def view_wordcloud():
-    # realTimeTweets()
-    realTimeTweets()
+    func("Hate",50)
     names, urls = categorical_wordcloud.create_wordcloud(df)
     return render_template('index.html', url = urls, name = names)
 
-
 @app.route('/bargraph')
 def view_bargraph():
-    realTimeTweets()
-    i = 0
-    tweets = df['Tweet']
-    for i in range(len(labels)):
-        labels[i] += np.random.randint(0,6)
-        i = i + 1 
-    x_axis= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
-    plt.bar(x_axis, labels,color=['cyan','red','purple','green', 'blue', 'black'])
-    plt.savefig('./static/images/bar_plot.png')
-    return render_template('index.html', name = 'bar_plot', url = './static/images/bar_plot.png')
+    func('Fake',20)
+    pred = cl2(df)
+    pred= pred['Category']
+    # print("printing predictions")
+    # print(pred)
+    for i in range(0,len(pred)):
+        pp= pred[i]
+        labels1[pp]=labels1[pp]+1
+    print(labels1)
+    x_axis1= ['Fake', 'Not Fake']
+    fig = px.bar(x=x_axis1, y=labels1,width=400, height=500, color=['cyan','red'])
+    fig.update_layout(showlegend=False)
+    graphJSON1 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    pred = cl3(df)
+    pred= pred['Category']
+    # print("printing predictions")
+    # print(pred)
+    for i in range(0,len(pred)):
+        pp= pred[i]
+        labels2[pp]=labels2[pp]+1
+    print(labels2)
+    x_axis2= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
+    fig = px.bar(x=x_axis2, y=labels2,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'])
+    fig.update_layout(showlegend=False)
+    graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    pred = cl4(df)
+    pred= pred['Category']
+    print("printing predictions")
+    print(pred)
+    for i in range(0,len(pred)):
+        pp= pred[i]
+        labels3[pp]=labels3[pp]+1
+    print(labels2)
+    x_axis3= ['0', '1','2']
+    fig = px.bar(x=x_axis3, y=labels3,width=400, height=500, color=['cyan','red','purple'])
+    fig.update_layout(showlegend=False)
+    graphJSON3 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    pred = cl5(df)
+    pred= pred['Category']
+    print("printing predictions")
+    print(pred)
+    for i in range(0,len(pred)):
+        pp= pred[i]
+        labels4[pp]=labels4[pp]+1
+    print(labels4)
+    x_axis4= ['0', '1','2','3','4','5']
+    fig = px.bar(x=x_axis4, y=labels4,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'])
+    fig.update_layout(showlegend=False)
+    graphJSON4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    # return render_template('index.html', name = 'wordcloud_plot', url ='/static/images/wordcloud_plot.png')
+    return render_template('bargraph2.html', graphJSON1=graphJSON1,graphJSON2=graphJSON2,graphJSON3=graphJSON3,graphJSON4=graphJSON4)
+
 
 
 @app.route('/geoheatmap')
-def view_geoheatmap():
-    # realTimeTweets()
+def view_geoheatmap(): 
     graphJSON, urls, names = geoheatmap.create_geoheatmap()
     return render_template('geoheatmap.html', url = urls, name = names, graphJSON=graphJSON)
 
@@ -353,67 +391,14 @@ def plot_users():
 
     return render_template('query10.html', graphJSON0=graphJSON0, graphJSON1=graphJSON0, graphJSON2=graphJSON2, graphJSON3=graphJSON3, graphJSON4=graphJSON4,graphJSON5=graphJSON5,graphJSON_likes_0=graphJSON_likes_0,graphJSON_likes_1=graphJSON_likes_0,graphJSON_likes_2=graphJSON_likes_2,graphJSON_likes_3=graphJSON_likes_3,graphJSON_likes_4=graphJSON_likes_4,graphJSON_likes_5=graphJSON_likes_4)
 
+    # return render_template('query10.html',name = 'new_plot', aa=a,bb=b,cc=c,dd=d)
 
 @app.route('/inputtext', methods=['GET', 'POST'])
 def classify_inputtext():
     if request.method == 'POST':
         text = request.form['text']
-        # processed_text = text.upper()
-        processed_text = p.clean(text)
-        predictions = input_tweet.classify_input_tweet(processed_text)
-
-        # hsol
-
-        if predictions[0] == 0:
-                predictions[0] = 'hate'
-        elif predictions[0] == 1:
-                predictions[0] = 'offensive'
-        elif predictions[0] == 2:
-                predictions[0] = 'none'
-
-        # fakeddit
-
-        if predictions[1] == 0:
-                predictions[1] = 'true'
-        elif predictions[1] == 1:
-                predictions[1] = 'false'
-
-        if predictions[2] == 0:
-                predictions[2] = 'true'
-        elif predictions[2] == 1:
-                predictions[2] = 'satire'
-        elif predictions[2] == 2:
-                predictions[2] = 'misleading'
-        elif predictions[2] == 3:
-                predictions[2] = 'false'
-        elif predictions[2] == 4:
-                predictions[2] = 'imposter'
-        elif predictions[2] == 5:
-                predictions[2] = 'manipulated'
-
-        # implicit
-
-        if predictions[3] == 0:
-                predictions[3] = 'explicit hate'
-        elif predictions[3] == 1:
-                predictions[3] = 'implicit hate'
-        elif predictions[3] == 2:
-                predictions[3] = 'not hate'
-
-        if predictions[4] == 0:
-                predictions[4] = 'incitement'
-        elif predictions[4] == 1:
-                predictions[4] = 'inferiority'
-        elif predictions[4] == 2:
-                predictions[4] = 'irony'
-        elif predictions[4] == 3:
-                predictions[4] = 'stereotypical'
-        elif predictions[4] == 4:
-                predictions[4] = 'threatening'
-        elif predictions[4] == 5:
-                predictions[4] = 'white grievance'
-
-        return render_template('inputtext.html', tweet = processed_text, names = predictions)
+        processed_text = text.upper()
+        return processed_text
     else:
         return render_template('inputtext.html')
 

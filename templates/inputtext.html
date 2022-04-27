@@ -6,46 +6,12 @@
 {% block content %}
     <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
         <h1>Fine-Grained Social Media Content Classification</h1>
+        <h4>Enter text to classify</h4>
     </div>
-    <div class="bg-img">
-        <form method="post" style="min-height: 190px; max-width: 40%;position: relative; float: right; margin-top: 195px">
-        <p><h4>Enter text to classify</h4></p>
-            <label for="tweet" class="l"><b>Tweet</b></label>
-            <input type="text" placeholder="Enter Tweet" name="Tweet" required>
-            <button type="submit" class="btn">Submit</button>
-        </form>
-    </div>
-    <!-- <div class="column" style="float: left; width: 60%; margin-top: 40px; margin-left: 400px;">
+    <div class="column" style="float: left; width: 60%; margin-top: 40px; margin-left: 400px;">
         <form method="POST">
             <input name="text">
             <input type="submit">
         </form>
-    </div> -->
-    <!-- <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
-        <h2>***** ***** *****</h2>
-    </div> -->
-    <div class="column" style="float: left; width: 80%; margin-top: 70px; margin-left: 400px;">
-        <h2>CLASSIFICATION</h2>
-        <h4>Text: {{tweet}}</h4>
-    </div>
-    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
-        <h3>HSOL: hate | offensive | none</h3>
-        <h4>{{names[0]}}</h4>
-    </div>
-    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
-        <h3>Fakeddit 2-way: true | false</h3>
-        <h4>{{names[1]}}</h4>
-    </div>
-    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
-        <h3>Fakeddit 6-way: true | satire | misleading | false | imposter | manipulated</h3>
-        <h4>{{names[2]}}</h4>
-    </div>
-    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
-        <h3>Implicit 3-way: explicit | implicit | not hate</h3>
-        <h4>{{names[3]}}</h4>
-    </div>
-    <div class="column" style="float: left; width: 80%; margin-top: 40px; margin-left: 400px;">
-        <h3>Implicit 6-way: incitement | inferiority | irony | stereotypical | threatening | white grievance</h3>
-        <h4>{{names[4]}}</h4>
     </div>
 {% endblock %}

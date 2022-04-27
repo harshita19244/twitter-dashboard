@@ -195,19 +195,3 @@ i{
   padding-right: 10px;
 }
 
-.bg-img {
-  /* The image used */
-  background-image: url('../images/favicon.jpeg');
-  min-height: 450px;
-  max-width: 80%;
-  margin-left: 110px;
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  align-self: center;
-}
-
-.btn:hover {
-  opacity: 1;
-}
