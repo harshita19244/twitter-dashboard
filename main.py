@@ -143,6 +143,7 @@ def plot_users():
     sorted_0=sorted_0[0:5]
     fig = px.bar(x=sorted_0.index, y=sorted_0)
     fig.update_coloraxes(showscale=False)
+    #fig.update_layout(x='UserName',y='#Likes')
     fig.update_layout(xaxis_title="Users",yaxis_title="# tweets")
     fig.update_layout(showlegend=False)
     #fig.update_layout(yaxis={'visible': False, 'showticklabels': False})
