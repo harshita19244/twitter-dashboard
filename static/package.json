@@ -1,0 +1,40 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "proj"
+  ],
+  "author": "harshita",
+  "license": "ISC",
+  "dependencies": {
+    "@colormap/core": "^0.2.0",
+    "@colormap/presets": "^0.2.0",
+    "@npmcli/arborist": ">=2.8.2",
+    "console": "^0.7.2",
+    "d3-ease": "^3.0.0",
+    "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0",
+    "fast-png": "^5.0.4",
+    "gl-matrix": "^3.3.0",
+    "pica": "^9.0.1",
+    "tar": ">=6.1.9"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2",
+    "snowpack": "^3.8.8",
+    "snowpack-plugin-glslify": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}
+
+

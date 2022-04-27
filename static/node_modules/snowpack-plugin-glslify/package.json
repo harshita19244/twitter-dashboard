@@ -1,0 +1,30 @@
+{
+	"name": "snowpack-plugin-glslify",
+	"version": "1.0.0",
+	"description": "Import GLSL strings with glslify (a node.js-style module system for GLSL).",
+	"keywords": [
+		"snowpack",
+		"plugin",
+		"glsl",
+		"glslify",
+		"shaders"
+	],
+	"main": "src/snowpack-plugin-glslify.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/borisdiakur/snowpack-plugin-glslify"
+	},
+	"bugs": {
+		"url": "https://github.com/borisdiakur/snowpack-plugin-glslify/issues"
+	},
+	"author": "Boris Diakur <contact@borisdiakur.com> (https://github.com/borisdiakur)",
+	"license": "MIT",
+	"dependencies": {
+		"glslify": "^7.1.1"
+	},
+	"devDependencies": {
+		"@types/node": "^14.14.27",
+		"eslint": "^7.20.0",
+		"prettier": "^2.2.1"
+	}
+}

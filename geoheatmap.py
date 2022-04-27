@@ -6,9 +6,9 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import fiona
 import json
-import plotly
-import plotly.express as px
-import plotly.tools as tls
+# import plotly
+# import plotly.express as px
+# import plotly.tools as tls
 
 
 def create_geoheatmap(data):
