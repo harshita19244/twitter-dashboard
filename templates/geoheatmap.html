@@ -10,40 +10,41 @@
             <div class="card" id="about">
                 <div id='chart1' class='chart1'”></div>
                 <!-- <img src={{ url[0] }} alt="Avatar" class="card-im"> -->
-                <h2>{{ name[0] }}</h2>
-                <p class="content">Geolocation Heatmap</p>
+                <h2>Hate-Offensive 3-way Classification</h2>
+                <p class="content">hate | offensive | none</p>
             </div>
         </div>
         <div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 300px;" >
             <div class="card" id="background">
                 <div id='chart2' class='chart2'”></div>
                 <!-- <img src={{ url[1] }} alt="Avatar" class="card-im"> -->
-                <h2>{{ name[1] }}</h2>
-                <p class="content">Geolocation Heatmap</p>
+                <h2>2-way Fake Classification</h2>
+                <p class="content">fake | not fake</p>
             </div> 
         </div>
         <div class="column" style="float: left; width: 60%; margin-top: 70px; margin-left: 300px;">
             <div class="card" id="about">
                 <div id='chart3' class='chart3'”></div>
                 <!-- <img src={{ url[2] }} alt="Avatar" class="card-im"> -->
-                <h2>{{ name[2] }}</h2>
-                <p class="content">Geolocation Heatmap</p>
+                <h2>6-way Fake Classification</h2>
+                <p class="content">true | satire | misleading | false | imposter | manipulated</p>
             </div>
         </div>
         <div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 300px;">
             <div class="card" id="background">
                 <div id='chart4' class='chart4'”></div>
                 <!-- <img src={{ url[3] }} alt="Avatar" class="card-im"> -->
-                <h2>{{ name[3] }}</h2>
-                <p class="content">Geolocation Heatmap</p>
+                <h2>3-way Hate Classification</h2>
+                <p class="content">implicit | explicit | not hate</p>
             </div> 
         </div>
         <div class="column" style="float:left; width: 60%; margin-top: 70px; margin-left: 300px;">
             <div class="card" id="background">
-                <div id='chart4' class='chart4'”></div>
+                <div id='chart5' class='chart5'”></div>
                 <!-- <img src={{ url[3] }} alt="Avatar" class="card-im"> -->
-                <h2>{{ name[3] }}</h2>
-                <p class="content">Geolocation Heatmap</p>
+                <!-- <h2>{{ name[3] }}</h2> -->
+                <h2>6-way Hate Classification</h2>
+                <p class="content">incitement | inferiority | irony | stereotypical | threatening | white grievance</p>
             </div> 
         </div>
     </div>
@@ -56,9 +57,11 @@
     var graph2 = {{graphJSON[1] | safe}};
     var graph3 = {{graphJSON[2] | safe}};
     var graph4 = {{graphJSON[3] | safe}};
+    var graph5 = {{graphJSON[4] | safe}};
     Plotly.plot('chart1',graph1,{});
     Plotly.plot('chart2',graph2,{});
     Plotly.plot('chart3',graph3,{});
     Plotly.plot('chart4',graph4,{});
+    Plotly.plot('chart5',graph5,{});
 </script>
 {% endblock %}
