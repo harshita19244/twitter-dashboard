@@ -43,18 +43,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///twitter.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# class Twitter(db.Model):
-#     sno = db.Column(db.Integer, primary_key=True)
-#     date = db.Column(db.DateTime,  nullable=False, default = datetime.utcnow)
-#     user = db.Column(db.String(80),nullable=False)
-#     isVerified = db.Column(db.Boolean,default=False)
-#     tweet = db.Column(db.String(150),nullable = False)
-#     likes = db.Column(db.Integer,nullable = False)
-#     rt = db.Column(db.Integer,nullable =False)
-#     location = db.Column(db.String(100))
+class Twitter(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime,  nullable=False, default = datetime.utcnow)
+    user = db.Column(db.String(80),nullable=False)
+    isVerified = db.Column(db.Boolean,default=False)
+    tweet = db.Column(db.String(150),nullable = False)
+    likes = db.Column(db.Integer,nullable = False)
+    rt = db.Column(db.Integer,nullable =False)
+    location = db.Column(db.String(100))
 
-#     def __repr__(self) -> str:
-#         return f"{self.user}-{self.tweet}"
+    def __repr__(self) -> str:
+        return f"{self.user}-{self.tweet}"
 
 
 # def func(Topic,Count):
