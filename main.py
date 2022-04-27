@@ -60,13 +60,13 @@ db = SQLAlchemy(app)
 
 class Twitter(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime,  nullable=False, default = datetime.utcnow)
-    user = db.Column(db.String(80),nullable=False)
-    isVerified = db.Column(db.Boolean,default=False)
-    tweet = db.Column(db.String(150),nullable = False)
-    likes = db.Column(db.Integer,nullable = False)
-    rt = db.Column(db.Integer,nullable =False)
-    location = db.Column(db.String(100))
+    Date = db.Column(db.DateTime,  nullable=False, default = datetime.utcnow)
+    User = db.Column(db.String(80),nullable=False)
+    IsVerified = db.Column(db.Boolean,default=False)
+    Tweet = db.Column(db.String(150),nullable = False)
+    Likes = db.Column(db.Integer,nullable = False)
+    RT = db.Column(db.Integer,nullable =False)
+    User_location = db.Column(db.String(100))
 
     def __repr__(self) -> str:
         return f"{self.user}-{self.tweet}"
@@ -114,26 +114,26 @@ def realTimeTweets():
             
             if not status.truncated:
 
-                tweet_1 = Twitter(date = status.created_at,user = status.user.name,isVerified = status.user.verified,tweet = status.text,likes = status.favorite_count
-                ,rt = status.retweet_count,location = status.user.location)
+                tweet_1 = Twitter(Date = status.created_at,User = status.user.name,IsVerified = status.user.verified,Tweet = status.text,Likes = status.favorite_count
+                ,RT = status.retweet_count,User_location = status.user.location)
                 db.session.add(tweet_1)
                 db.session.commit()
 
             else:
 
-                tweet_1 = Twitter(date = status.created_at,user = status.user.name,isVerified = status.user.verified,tweet = status.extended_tweet['full_text'],likes = status.favorite_count
-                ,rt = status.retweet_count,location = status.user.location)
+                tweet_1 = Twitter(Date = status.created_at,User = status.user.name,IsVerified = status.user.verified,Tweet = status.extended_tweet['full_text'],Likes = status.favorite_count
+                ,RT = status.retweet_count,User_location = status.user.location)
                 db.session.add(tweet_1)
                 db.session.commit()
 
-            time.sleep(5)
-            df = dbtodf()
-            print(df)
-            print(df.columns)
+            # time.sleep(5)
+            df_5 = dbtodf()
+            print(df_5)
+            print(df_5.columns)
     
     stream_tweet = Listener(consumer_key, consumer_secret,access_token,access_token_secret)
 
-    keywords = ["#news","muslim","church","trump"]
+    keywords = ["fake","elon musk","russia","ukraine","hate"]
     stream_tweet.filter(track=keywords)
 
 
@@ -151,20 +151,19 @@ def dbtodf():
     
 @app.route('/home',methods = ['GET'])
 def get_home():
-    # threading.Thread(target=realTimeTweets).start()
+    threading.Thread(target=realTimeTweets).start()
     return render_template('primary.html')
     
 @app.route('/wordcloud')
 def view_wordcloud():
-    # realTimeTweets()
-    realTimeTweets()
+    df = dbtodf()
     names, urls = categorical_wordcloud.create_wordcloud(df)
     return render_template('index.html', url = urls, name = names)
 
 
 @app.route('/bargraph')
 def view_bargraph():
-    realTimeTweets()
+    df = dbtodf()
     i = 0
     tweets = df['Tweet']
     for i in range(len(labels)):
@@ -179,7 +178,8 @@ def view_bargraph():
 @app.route('/geoheatmap')
 def view_geoheatmap():
     # realTimeTweets()
-    graphJSON, urls, names = geoheatmap.create_geoheatmap()
+    df = dbtodf()
+    graphJSON, urls, names = geoheatmap.create_geoheatmap(df)
     return render_template('geoheatmap.html', url = urls, name = names, graphJSON=graphJSON)
 
 
@@ -189,8 +189,7 @@ def view_dispersion():
 
 @app.route("/query5")
 def plot_users():
-
-    func('Fake',10000)
+    df = dbtodf()
     data = cl3(df)
     count=[0,0,0,0,0,0]
     for i in range(len(count)):
@@ -412,10 +411,11 @@ def classify_inputtext():
                 predictions[4] = 'threatening'
         elif predictions[4] == 5:
                 predictions[4] = 'white grievance'
-
         return render_template('inputtext.html', tweet = processed_text, names = predictions)
     else:
-        return render_template('inputtext.html')
+        predictions = ['', '', '', '', '']
+        text = 'Please enter text to classify'
+        return render_template('inputtext.html', tweet = text, names = predictions)
 
 @app.after_request
 def add_header(response):
