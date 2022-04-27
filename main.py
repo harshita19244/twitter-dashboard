@@ -18,8 +18,14 @@ from tweepy import OAuthHandler
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib
 import matplotlib.pyplot as plt
+<<<<<<< Updated upstream
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import subprocess
+from models.hsol import caller as cl1
+from models.fakeddit_2 import caller as cl2
+from models.fakeddit_6 import caller as cl3
+import preprocessor as p
 matplotlib.use('Agg')
 import sqlite3
 import time
@@ -224,8 +230,9 @@ def plot_users():
 def classify_inputtext():
     if request.method == 'POST':
         text = request.form['text']
-        processed_text = text.upper()
-        return processed_text
+        # processed_text = text.upper()
+        processed_text = p.clean(text)
+        return render_template('inputtext.html')
     else:
         return render_template('inputtext.html')
 
