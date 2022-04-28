@@ -247,8 +247,7 @@ def view_dispersion():
 def plot_users():
     df = dbtodf()
     graphJSON, graphJSON_likes = query_users.user_plots(df, app)
-
-    return render_template('query10.html', graphJSON0=graphJSON[0], graphJSON1=graphJSON[0], graphJSON2=graphJSON[2], graphJSON3=graphJSON[3], graphJSON4=graphJSON[4],graphJSON5=graphJSON[5],graphJSON_likes_0=graphJSON_likes[0],graphJSON_likes_1=graphJSON_likes[0],graphJSON_likes_2=graphJSON_likes[2],graphJSON_likes_3=graphJSON_likes[3],graphJSON_likes_4=graphJSON_likes[4],graphJSON_likes_5=graphJSON_likes[5])
+    return render_template('query10.html', graphJSON=graphJSON, graphJSON_likes=graphJSON_likes)
 
 @app.route('/inputtext', methods=['GET', 'POST'])
 def classify_inputtext():
