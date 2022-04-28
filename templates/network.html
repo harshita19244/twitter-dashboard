@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   </head>  
-  <nav class="navbar" style="opacity: 0.8; height: 96.5%;">
+  <nav class="navbar">
     <!-- LOGO -->
     <div class="logo">Twitter Dashboard</div>
     <!-- NAVIGATION MENU -->
@@ -29,25 +29,15 @@
         <li class="services">
           <a href="/"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
           <ul class="dropdown">
-          <li><a href="{{ url_for('plot_users') }}">Dominant User data</a></li>
+          <li><a href="{{ url_for('plot_users') }}">Dominant Users</a></li>
           <li><a href="{{ url_for('view_bargraph') }}">Dominant Categories</a></li>
           <li><a href="{{ url_for('view_wordcloud') }}">Categorical Wordclouds</a></li>
           <li><a href="{{ url_for('view_geoheatmap') }}">Categorical Geolocation Heatmap</a></li>
-          <li><a href="{{ url_for('classify_inputtext') }}">Categorical Tweet Analysis</a></li>
         </ul>
       </li>
         <li class="services">
-          <a href="/"><i class="fa fa-bar-chart" aria-hidden="true"></i>Categorical Analysis</a>
-          <!-- DROPDOWN MENU -->
-          <ul class="dropdown">
-            <li><a href="/">Fake News </a></li>
-            <li><a href="/">Satire/Parody</a></li>
-            <li><a href="/">Hate Speech</a></li>
-            <li><a href="/">Manipulated Content</a></li>
-            <li><a href="/">Misleading Content</a></li>
-          </ul>
+          <a href="{{ url_for('classify_inputtext') }}"><i class="fa fa-bar-chart" aria-hidden="true"></i>Categorical Text Analysis</a>
         </li>
-        <li><a href="/"><i class="fa fa-cogs" aria-hidden="true"></i>Live Twitter Analysis</a></li>
         <li><a href="{{ url_for('view_dispersion')}}"><i class="fa fa-external-link-square" aria-hidden="true"></i>Dispersion Networks</a></li>
       </div>
     </ul>
