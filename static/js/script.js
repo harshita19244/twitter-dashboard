@@ -1,11 +1,11 @@
-// import { Helios, xnet } from "../../src/helios"
+//import { Helios, xnet } from "../../src/helios"
 
-import {Helios,xnet} from "https://cdn.skypack.dev/helios-web?min";
-import * as d3Chromatic from "d3-scale-chromatic"
-import { scaleOrdinal as d3ScaleOrdinal, scaleSequential as d3ScaleSequential } from "d3-scale"
-import { select as d3Select } from "d3-selection"
-import { rgb as d3rgb } from "d3-color"
-import * as extraColors from "extraColors.js"
+import {Helios,xnet} from "https://cdn.skypack.dev/helios-web?min"
+import * as d3Chromatic from "https://cdn.skypack.dev/helios-web?min"
+import { scaleOrdinal as d3ScaleOrdinal, scaleSequential as d3ScaleSequential } from  "https://cdn.skypack.dev/d3-scale"
+import { select as d3Select } from "https://cdn.skypack.dev/d3-selection"
+import { rgb as d3rgb } from "https://cdn.skypack.dev/d3-color"
+import * as extraColors from "./extraColors.js"
 
 
 let allColors = {}
@@ -108,7 +108,7 @@ if (urlParams.has("additive") && darkBackground) {
 
 
 let visualizeNetwork = (networkName) => {
-	xnet.loadXNETFile("../networks/" + networkName + ".xnet").then(async network => {
+	xnet.loadXNETFile("./static/js/networks/" + networkName + ".xnet").then(async network => {
 
 		/*
 		 * Defining default and initial parameters

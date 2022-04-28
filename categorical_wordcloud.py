@@ -1,4 +1,5 @@
 
+from tkinter import N
 from sqlalchemy import false
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib.pyplot as plt
@@ -38,27 +39,34 @@ def implicit3_create(pred):
     hate_tweets = pred.loc[pred['Category'] == 0]
     offensive_tweets = pred.loc[pred['Category'] == 1]
     none_tweets = pred.loc[pred['Category'] == 2]
-    print(hate_tweets)
-    pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(hate_tweets['Tweet']))
-    pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(offensive_tweets['Tweet']))
-    pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(none_tweets['Tweet']))
-    plt.imshow(pil_img, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wordcloud_plot1.png')
-    plt.imshow(pil_img2, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wordcloud_plot2.png')
-    plt.imshow(pil_img3, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wordcloud_plot3.png')
-    names.append(pil_img);names.append(pil_img2);names.append(pil_img3)
-    urls.append()
+    if not none_tweets.empty:
+        pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(none_tweets['Tweet']))
+        plt.imshow(pil_img3, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wordcloud_plot3.png')
+        names.append(pil_img3)
+        urls.append('./static/images/wordcloud_plot3.png')
+   
+    if not hate_tweets.empty:
+        pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(hate_tweets['Tweet']))
+        plt.imshow(pil_img, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wordcloud_plot1.png')
+        names.append(pil_img)
+        urls.append('./static/images/wordcloud_plot1.png')
+    
+    if not offensive_tweets.empty:
+        pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(offensive_tweets['Tweet']))
+        plt.imshow(pil_img2, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wordcloud_plot2.png')
+        names.append(pil_img2)
+        urls.append('./static/images/wordcloud_plot2.png')
 
 def implicit6_create(pred):
     hate_tweets = pred.loc[pred['Category'] == 0]
     offensive_tweets = pred.loc[pred['Category'] == 1]
     none_tweets = pred.loc[pred['Category'] == 2]
-    print(hate_tweets)
     pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(hate_tweets['Tweet']))
     pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(offensive_tweets['Tweet']))
     pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(none_tweets['Tweet']))
@@ -96,41 +104,62 @@ def fakeddit6_create(pred):
     false_tweets = pred.loc[pred['Category'] == 3]
     imposter_tweets = pred.loc[pred['Category'] == 4]
     manipulated_tweets = pred.loc[pred['Category'] == 5]
-    pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(true_tweets['Tweet']))
-    pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(satire_tweets['Tweet']))
-    pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(misleading_tweets['Tweet']))
-    pil_img4 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(false_tweets['Tweet']))
-    pil_img5 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(imposter_tweets['Tweet']))
-    pil_img6 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(manipulated_tweets['Tweet']))
-    plt.imshow(pil_img, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wf6_1.png')
-    plt.imshow(pil_img2, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wf6_2.png')
-    plt.imshow(pil_img3, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wf6_3.png')
-    plt.imshow(pil_img4, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wf6_4.png')
-    plt.imshow(pil_img5, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wf6_5.png')
-    plt.imshow(pil_img6, interpolation='bilinear')
-    plt.axis("off")
-    plt.savefig('./static/images/wf6_6.png')
-    urls.append('./static/images/wf6_1.png');urls.append('./static/images/wf6_2.png');urls.append('./static/images/wf6_3.png');urls.append('./static/images/wf6_4.png')
-    urls.append('./static/images/wf6_5.png');urls.append('./static/images/wf6_5.png')
-    names.append(pil_img);names.append(pil_img2);names.append(pil_img3);names.append(pil_img4);names.append(pil_img5);names.append(pil_img6)
+    
+    if not true_tweets.empty:
+        pil_img = WordCloud(collocations = False, background_color = 'white').generate(' '.join(true_tweets['Tweet']))
+        plt.imshow(pil_img, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wf6_1.png')
+        urls.append('./static/images/wf6_1.png')
+        names.append(pil_img)
+    
+    if not satire_tweets.empty:
+        pil_img2 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(satire_tweets['Tweet']))
+        plt.imshow(pil_img2, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wf6_2.png')
+        urls.append('./static/images/wf6_2.png')
+        names.append(pil_img2)
+    
+    if not misleading_tweets.empty:
+        pil_img3 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(misleading_tweets['Tweet']))
+        plt.imshow(pil_img3, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wf6_3.png')
+        urls.append('./static/images/wf6_3.png')
+        names.append(pil_img3)
+    
+    
+    if not false_tweets.empty:
+        pil_img4 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(false_tweets['Tweet']))
+        plt.imshow(pil_img4, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wf6_4.png')
+        urls.append('./static/images/wf6_4.png')
+        names.append(pil_img4)
+    
+    if not imposter_tweets.empty:
+        pil_img5 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(imposter_tweets['Tweet']))
+        plt.imshow(pil_img5, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wf6_5.png')
+        urls.append('./static/images/wf6_5.png')
+        names.append(pil_img5)
+    
+    if not manipulated_tweets.empty:
+        pil_img6 = WordCloud(collocations = False, background_color = 'white').generate(' '.join(manipulated_tweets['Tweet']))
+        plt.imshow(pil_img6, interpolation='bilinear')
+        plt.axis("off")
+        plt.savefig('./static/images/wf6_6.png')
+        urls.append('./static/images/wf6_5.png')
+        names.append(pil_img6)
 
 
 def create_wordcloud(df):
     #using hsol
     hsol_create(cl1(df))
     fakeddit2_create(cl2(df))
-    #fakeddit6_create(cl3(df))
-    #implicit3_create(cl4(df))
-    #implicit6_create(cl5(df))
+    fakeddit6_create(cl3(df))
+    implicit3_create(cl4(df))
     return names,urls
 
