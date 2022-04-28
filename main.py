@@ -147,7 +147,8 @@ def dbtodf():
 @app.route('/home',methods = ['GET'])
 def get_home():
     threading.Thread(target=realTimeTweets).start()
-    return render_template('primary.html')
+    # return render_template('primary.html')
+    return render_template('home.html')
     
 @app.route('/wordcloud')
 def view_wordcloud():

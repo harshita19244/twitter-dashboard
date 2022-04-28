@@ -209,7 +209,7 @@ i{
   align-self: center;
 }
 
-.btn {
+.btn-input {
   background-color:var(--bs-blue);
   color: white;
   padding: 16px 20px;
