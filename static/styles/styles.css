@@ -201,7 +201,7 @@ i{
   min-height: 450px;
   max-width: 60%;
   margin-top: 100px;
-  margin-left: 110px;
+  margin-left: 290px;
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
@@ -218,6 +218,7 @@ i{
   width: 100%;
   opacity: 0.9;
   font-size: 1rem;
+  margin-left: 18px;
   margin-top: 10px;
   font-family: var(--bs-body-font-family);
 }
