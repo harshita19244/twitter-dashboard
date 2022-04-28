@@ -240,6 +240,10 @@ def classify_inputtext():
         text = 'Please enter text to classify'
         return render_template('inputtext.html', tweet = text, names = predictions)
 
+@app.route('/contact')
+def get_contact():
+    return render_template('contactUs.html')
+
 @app.after_request
 def add_header(response):
 	"""
