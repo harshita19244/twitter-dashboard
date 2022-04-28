@@ -39,8 +39,8 @@
    .favicon{
     background-image: url('../images/img.png');
     min-height: 450px;
-    max-width: 80%;
-    margin-left: 110px;
+    max-width: 60%;
+    margin-left: 90px;
     /* Center and scale the image nicely */
     background-position: center;
     background-size: cover;
@@ -199,11 +199,42 @@ i{
   /* The image used */
   background-image: url('../images/favicon.jpeg');
   min-height: 450px;
-  max-width: 80%;
+  max-width: 60%;
+  margin-top: 100px;
   margin-left: 110px;
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   align-self: center;
+}
+
+.btn {
+  background-color:var(--bs-blue);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  font-size: 1rem;
+  margin-top: 10px;
+  font-family: var(--bs-body-font-family);
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+input[type=text], input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
 }
