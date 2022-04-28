@@ -50,10 +50,10 @@
         </div>
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script type='text/javascript'>
-  var graphs1 = {{graphJSON1 | safe}};
-  var graphs2 = {{graphJSON2 | safe}};
-  var graphs3 = {{graphJSON3 | safe}};
-  var graphs4 = {{graphJSON4 | safe}};
+  var graphs1 = {{graphJSON[0] | safe}};
+  var graphs2 = {{graphJSON[1] | safe}};
+  var graphs3 = {{graphJSON[2] | safe}};
+  var graphs4 = {{graphJSON[3] | safe}};
   
   Plotly.plot('chart1',graphs1,{});
   Plotly.plot('chart2',graphs2,{});

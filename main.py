@@ -28,6 +28,7 @@ import categorical_wordcloud
 import geoheatmap
 import input_tweet
 import query_users
+import bargraph
 import json
 import plotly
 import plotly.express as px
@@ -45,10 +46,6 @@ access_token = "899977011774369795-VDedKBd2KOO0xtmOJZWLqJHognDLZOo"
 access_token_secret = "Nd83xEIqrxFpTj6ThCQ9FaRBzA2NLyjenFcGfIMuaFqFM"
 
 df = pd.DataFrame(columns=["Date","User","IsVerified","Tweet","Likes","RT",'User_location'])
-labels1= [0,0]
-labels2= [0,0,0,0,0,0]
-labels3= [0,0,0]
-labels4= [0,0,0,0,0,0]
 tags = ['True', 'Satire', 'Misleading', 'Manipulated', 'False', 'Impostor']
 app = Flask(__name__)
 
@@ -161,78 +158,8 @@ def view_wordcloud():
 @app.route('/bargraph')
 def view_bargraph():
     df = dbtodf()
-    pred = cl2(df)
-    pred= pred['Category']
-    # print("printing predictions")
-    # print(pred)
-    for i in range(0,len(pred)):
-        pp= pred[i]
-        labels1[pp]=labels1[pp]+1
-    print(labels1)
-    x_axis1= ['Fake', 'Not Fake']
-    fig = px.bar(x=x_axis1, y=labels1,width=400, height=500, color=['cyan','red'],labels={'x':'Category', 'y':'Categorical_Count'})
-    fig.update_layout(
-    xaxis_title="Category",
-    yaxis_title="Categorical_Count"
-)
-    fig.update_layout(showlegend=False)
-    graphJSON1 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-    pred = cl3(df)
-    pred= pred['Category']
-    # print("printing predictions")
-    # print(pred)
-    for i in range(0,len(pred)):
-        pp= pred[i]
-        labels2[pp]=labels2[pp]+1
-    print(labels2)
-    x_axis2= ['Grievance', 'Incitement', 'Threats', 'Irony', 'Stereotypes', 'Inferiority']
-    fig = px.bar(x=x_axis2, y=labels2,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'],labels={'x':'Category', 'y':'Categorical_Count'})
-    fig.update_layout(showlegend=False)
-    fig.update_layout(
-    xaxis_title="Category",
-    yaxis_title="Categorical_Count"
-)
-    graphJSON2 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-    pred = cl4(df)
-    pred= pred['Category']
-    print("printing predictions")
-    print(pred)
-    for i in range(0,len(pred)):
-        pp= pred[i]
-        labels3[pp]=labels3[pp]+1
-    print(labels2)
-    x_axis3= ['Expicit', 'Implicit','Not Hate']
-    fig = px.bar(x=x_axis3, y=labels3,width=400, height=500, color=['cyan','red','purple'],labels={'x':'Category', 'y':'Categorical_Count'})
-    fig.update_layout(showlegend=False)
-    fig.update_layout(
-    xaxis_title="Category",
-    yaxis_title="Categorical_Count"
-)
-    graphJSON3 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-    pred = cl5(df)
-    pred= pred['Category']
-    print("printing predictions")
-    print(pred)
-    for i in range(0,len(pred)):
-        pp= pred[i]
-        labels4[pp]=labels4[pp]+1
-    print(labels4)
-    x_axis4= [ "incitement" ,"inferiority" , "irony" , "stereotypical" , "threatening" ,"white grievance"]
-    fig = px.bar(x=x_axis4, y=labels4,width=400, height=500, color=['cyan','red','purple','green', 'blue', 'black'],labels={'x':'Category', 'y':'Categorical_Count'})
-    fig.update_layout(showlegend=False)
-    fig.update_layout(
-    xaxis_title="Category",
-    yaxis_title="Categorical_Count"
-)
-    graphJSON4 = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-    # return render_template('index.html', name = 'wordcloud_plot', url ='/static/images/wordcloud_plot.png')
-    return render_template('bargraph2.html', graphJSON1=graphJSON1,graphJSON2=graphJSON2,graphJSON3=graphJSON3,graphJSON4=graphJSON4)
-
-
+    graphJSON = bargraph.plot_bargraph(df)
+    return render_template('bargraph2.html', graphJSON=graphJSON)
 
 @app.route('/geoheatmap')
 def view_geoheatmap(): 
