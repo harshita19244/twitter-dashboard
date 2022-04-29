@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Live Twitter Visualization{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/b_styles.css') }}" />\
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/slidy.css') }}" />\
+{% endblock %}
+{% block content %}
+<div id="container" style="padding:2%; width:90%">
+<div id="pageheader">
+<h1>Background</h1>
+<p>Detailed Overview Of The Project</p>
+</div>
+
+
+<div class="section">
+<div class="pageitem">
+<h2>Motivation</h2>
+<p>Social media content is immensely effective in altering politics and culture negatively.Automatic machine learning models often serve the purpose of detecting fake news and hate speech, but in order to combat the widespread dissemination of different kinds of fake information and hate speech, a more robust method is required. Moreover, looking into various tools that address the purpose, we observed that most tools classified social media information into broad categories of hate speech or fake news. A more fine-grained view into imposter, satire and manipulated content was not provided and very few tools addressed all these categories together. There is also a need for tools to visualize how this information propagates through social media, which may serve as a useful analytical tool to address the issue. Therefore, we aim to tackle this problem by utilizing a comprehensive dataset consisting of text data, metadata and comment data to formulate a tool and perform classification of information. We aim to classify data into fine-grained categories like authentic, fake, satire/parody, imposter, manipulated, hate speech, misleading content etc. We also aim to visualize content dispersion in real-time on social media using Spatio-temporal heatmaps and graphs. These factors, coupled together, will provide a comprehensive overview of information on social media and help us address how this information propagates and its extent of influencing opinions of online and offline social communities.</p>
+</div>
+</div>
+
+<div class="section">
+<div class="pageitem">
+<div class="col">
+<h2>Fake News Detection</h2>
+<p> Previous work on Fake news detection encapsulates broadly three approaches, (1) News Content-based, (2) Propagation-based, and (3) Social/User context- based. Typical methods rely on the content of news articles/tweets to extract the textual features, such as TFIDF/n-gram, and apply supervised learning (e.g., random forest, support vector machine, and Naive Bayes) for binary classification </p><p>Attention-based mechanisms have proven to be very effective because of their ability to stress upon the most important parts of a text.Various literature have used deep learning ensemble architecture based on CNN and Bi-LSTM to capture hidden features and information in both directions, respectively, and literature review in this domain also proposed a hybrid attention-based LSTM model.
+</p>
+</div>
+<div class="col">
+<h2>Fine grained Fake News Classification</h2>
+<p>Prior work on algorithmic truth assessment is mostly based on binary classification - true news vs fake news and ignores the finer shades of untruth. In manual analysis, more fine grained distinctions have been proposed which distinguishes the news or twitter content in hoaxes, irony or propaganda.</p><p>(Wang et al. 2019)have devised a taxonomic hierarchy which reconciles politifact 6-way “Truth-o-meter” ratings and SHPT dataset which organizes their labels as tree and creates 5 categories of fake news which are: factual, propaganda, hoax and irony and two subclassification inside propaganda to distinguish incomplete content from manipulative content</p>
+</div>
+<div class="col">
+<h2>Information Diffusion Visualization</h2>
+<p>Social media has resulted in vast amounts of information being created and propagated at unprecedented rates. Moreover, the format of social media content is easy to consume and share, giving it the potential to influence millions of people. Several tools have thus been developed to analyze and visualize information diffusion. </p><p>(Ahmed et al. 2018)provides a detailed study of NodeXL as a tool to visualize the diffusion of information on social media, observe patterns in the data, identify influential nodes, formation of communities. FakeNewsTracker is another tool for detecting fake news and visualizing its spread. It includes components to automatically collect new content along with social context to create datasets for the study of fake news, detecting fake news by extracting useful features. </p>
+</div>
+</div>
+</div>
+
+
+</div>
+{% endblock %}
