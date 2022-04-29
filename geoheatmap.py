@@ -18,9 +18,28 @@ def create_geoheatmap():
 	data = country_codes(data)
 	df = pd.merge(left=geo_df, right=data, how='left', left_on='iso2_code', right_on='iso2_code')
 	df.fillna(0, inplace=True)
-	df['Density (per sq. mi.)'] = round(df['Population']/df['Area (sq. mi.)'], 2)
-	# data.rename(columns = {'Population', 'Area (sq. mi.)', 'GDP ($ per capita)', 'Density (per sq. mi.)'}, inplace = True)
-	cols = ['Population', 'Area (sq. mi.)', 'GDP ($ per capita)', 'Density (per sq. mi.)', 'Population']
+	# data.rename(columns = {'Population':'hate', 'Area (sq. mi.)':'offensive', 'GDP ($ per capita)':'fake'}, inplace = True)
+	df['hate'] = df['Population']
+	df['offensive'] = df['Area (sq. mi.)']
+	df['fake'] = df['GDP ($ per capita)']
+	df['none'] = df['hate']
+	df['not_fake'] = df['offensive']
+	df['true'] = df['fake']
+	df['satire'] = df['hate']
+	df['misleading'] = df['offensive']
+	df['false'] = df['fake']
+	df['imposter'] = df['hate']
+	df['manipulated'] = df['offensive']
+	df['implicit'] = df['fake']
+	df['explicit'] = df['hate']
+	df['not_hate'] = df['offensive']
+	df['incitement'] = df['fake']
+	df['inferiority'] = df['hate']
+	df['irony'] = df['offensive']
+	df['stereotypical'] = df['fake']
+	df['threatening'] = df['hate']
+	df['white grievance'] = df['offensive']
+	cols = ['hate', 'offensive', 'none', 'fake', 'not_fake', 'true', 'satire', 'misleading', 'false', 'imposter', 'manipulated', 'implicit', 'explicit', 'not_hate', 'incitement', 'inferiority', 'irony', 'stereotypical', 'threatening', 'white grievance']
 	gjsons = create_maps(df, cols)
 	urls = generate_urls(4)
 	return gjsons, urls, cols
