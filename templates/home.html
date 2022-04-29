@@ -36,7 +36,7 @@
           </ul> -->
         </li>
         <li class="services">
-          <a href="{{ url_for('get_background') }}"><i class="fa fa-info" aria-hidden="true"></i>Background</a>
+          <a href="{{ url_for('get_background') }}"><i class="fa fa-info" aria-hidden="true"></i>About</a>
         </li>
         <li class="services">
           <a href="/"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
@@ -65,9 +65,9 @@
       <div class="page-banner home-banner">
         <div class="row align-items-center flex-wrap-reverse h-100">
           <div class="col-md-6 py-5 wow fadeInLeft">
-            <h1 class="mb-4">Let's Check and Optimize your website!</h1>
-            <p class="text-lg text-grey mb-5">Ignite the most powerfull growth engine you have ever built for your company</p>
-            <a href="#" class="btn btn-primary btn-split">Watch Video <div class="fab"><span class="mai-play"></span></div></a>
+            <h1 class="mb-4">TwiDash</h1>
+            <p class="text-lg text-grey mb-5">Fine-grained Analysis and Diffusion Visualization Tool</p>
+            <a href="{{ url_for('view_dispersion')}}" class="btn btn-primary btn-split">View Realtime Dispersion Network <div class="fab"><span class="mai-play"></span></div></a>
           </div>
           <div class="col-md-6 py-5 wow zoomIn">
             <div class="img-fluid text-center">
@@ -86,24 +86,12 @@
         <div class="col-lg-4">
           <div class="card-service wow fadeInUp">
             <div class="header">
-              <img src="{{ url_for('static', filename='assets/img/services/service-1.svg') }}" alt="">
+              <img src="{{ url_for('static', filename='assets/img/services/service-3.svg') }}" alt="">
             </div>
             <div class="body">
-              <h5 class="text-secondary">SEO Consultancy</h5>
-              <p>We help you define your SEO objective & develop a realistic strategy with you</p>
-              <a href="service.html" class="btn btn-primary">Read More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card-service wow fadeInUp">
-            <div class="header">
-              <img src="{{ url_for('static', filename='assets/img/services/service-2.svg') }}" alt="">
-            </div>
-            <div class="body">
-              <h5 class="text-secondary">Content Marketing</h5>
-              <p>We help you define your SEO objective & develop a realistic strategy with you</p>
-              <a href="service.html" class="btn btn-primary">Read More</a>
+              <h5 class="text-secondary">Hate-Offensive Classification</h5>
+              <p>Hate Speech and Offensive Language Dataset:</p><p></p><p>hate | offensive | none</p>
+              <a href="{{ url_for('get_background') }}" class="btn btn-primary">Read More</a>
             </div>
           </div>
         </div>
@@ -113,9 +101,21 @@
               <img src="{{ url_for('static', filename='assets/img/services/service-3.svg') }}" alt="">
             </div>
             <div class="body">
-              <h5 class="text-secondary">Keyword Research</h5>
-              <p>We help you define your SEO objective & develop a realistic strategy with you</p>
-              <a href="service.html" class="btn btn-primary">Read More</a>
+              <h5 class="text-secondary">Fake Classification</h5>
+              <p>Fakeddit Dataset:</p><p>fake | not fake</p><p>true | satire | misleading | false | imposter | manipulated</p>
+              <a href="{{ url_for('get_background') }}" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card-service wow fadeInUp">
+            <div class="header">
+              <img src="{{ url_for('static', filename='assets/img/services/service-3.svg') }}" alt="">
+            </div>
+            <div class="body">
+              <h5 class="text-secondary">Hate Classification</h5>
+              <p>Implicit Hate Speech Dataset:</p><p>implicit | explicit | not hate</p><p>incitement | inferiority | irony | stereotypical | threatening | white grievance</p>
+              <a href="{{ url_for('get_background') }}" class="btn btn-primary">Read More</a>
             </div>
           </div>
         </div>
@@ -127,117 +127,32 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6 py-3 wow fadeInUp">
-          <span class="subhead">About us</span>
-          <h2 class="title-section">The number #1 SEO Service Company</h2>
+          <span class="subhead">About TwiDash</span>
+          <h2 class="title-section">The #1 Fine-Grained Content Visualization and Analysis Tool</h2>
           <div class="divider"></div>
 
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-          <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.</p>
-          <a href="about.html" class="btn btn-primary mt-3">Read More</a>
+          <p>Most tools classified social media information into broad categories of hate speech or fake news. A more fine-grained classification is not provided.</p>
+          <p>TwiDash aims to classify data into fine-grained categories like authentic, fake, satire/parody, imposter, manipulated, hate speech, misleading content and more.</p>
+          <p>TwiDash provides a variety of visualizations of data using graphs, content dispersion in real-time using dispersion networks.</p>
+          <a href="{{ url_for('get_background') }}" class="btn btn-primary mt-3">Read More</a>
         </div>
         <div class="col-lg-6 py-3 wow fadeInRight">
           <div class="img-fluid py-3 text-center">
-            <img src="{{ url_for('static', filename='assets/img/about_frame.png') }}" alt="">
+            <img src="{{ url_for('static', filename='images/favicon.jpeg') }}" alt="" style="width:80%">
           </div>
         </div>
       </div>
     </div> <!-- .container -->
   </div> <!-- .page-section -->
 
-  <div class="page-section bg-light">
-    <div class="container">
-      <div class="text-center wow fadeInUp">
-        <div class="subhead">Our services</div>
-        <h2 class="title-section">How SEO Team Can Help</h2>
-        <div class="divider mx-auto"></div>
-      </div>
-
-        <div class="row">
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-4 col-xl-3 py-3 wow zoomIn">
-            <div class="features">
-              <div class="header mb-3">
-                <span class="mai-business"></span>
-              </div>
-              <h5>OnSite SEO</h5>
-              <p>We analyse your website's structure, internal architecture & other key</p>
-            </div>
-          </div>
-        </div>
-
-    </div> <!-- .container -->
-  </div> <!-- .page-section -->
-
-  <div class="page-section banner-seo-check">
+  <div class="page-section banner-seo-check"> 
     <div class="wrap bg-image" style="background-image: url(../assets/img/bg_pattern.svg);">
       <div class="container text-center">
         <div class="row justify-content-center wow fadeInUp">
           <div class="col-lg-8">
-            <h2 class="mb-4">Check your Website SEO</h2>
-            <form action="#">
-              <input type="text" class="form-control" placeholder="E.g google.com">
+            <h2 class="mb-4">Interactive Categorical Text Analysis</h2>
+            <form action="{{ url_for('classify_inputtext') }}" method="post">
+              <input type="text" class="form-control" placeholder="Enter Tweet" name="text" required>
               <button type="submit" class="btn btn-success">Check Now</button>
             </form>
           </div>
@@ -246,105 +161,150 @@
     </div> <!-- .wrap -->
   </div> <!-- .page-section -->
 
-  <div class="page-section">
+  <div class="page-section bg-light">
     <div class="container">
       <div class="text-center wow fadeInUp">
-        <div class="subhead">Pricing Plan</div>
-        <h2 class="title-section">Choose plan the right for you</h2>
+        <div class="subhead">Our Visualizations</div>
+        <h2 class="title-section">Graphs and Dispersion Networks</h2>
         <div class="divider mx-auto"></div>
       </div>
-      <div class="row mt-5">
-        <div class="col-lg-4 py-3 wow zoomIn">
-          <div class="card-pricing">
-            <div class="header">
-              <div class="pricing-type">Basic</div>
-              <div class="price">
-                <span class="dollar">$</span>
-                <h1>39<span class="suffix">.99</span></h1>
+
+        <div class="row" style="padding:2%">
+          <div class="col-sm-6 col-lg-4 col-xl-4 py-3 wow zoomIn">
+            <div class="features">
+              <div class="header mb-3">
+                <span class="mai-business"></span>
               </div>
-              <h5>Per Month</h5>
+              <h5>Bar Graph</h5>
+              <p>Dominant categories by count of tweets</p>
             </div>
-            <div class="body">
-              <p>25 Analytics <span class="suffix">Campaign</span></p>
-              <p>1,300 Change <span class="suffix">Keywords</span></p>
-              <p>Social Media <span class="suffix">Reviews</span></p>
-              <p>1 Free <span class="suffix">Optimization</span></p>
-              <p>24/7 <span class="suffix">Support</span></p>
+          </div>
+          <div class="col-sm-6 col-lg-4 col-xl-4 py-3 wow zoomIn">
+            <div class="features">
+              <div class="header mb-3">
+                <span class="mai-business"></span>
+              </div>
+              <h5>Pie Chart</h5>
+              <p>Distribution of categories by count of tweets</p>
             </div>
-            <div class="footer">
-              <a href="#" class="btn btn-pricing btn-block">Subscribe</a>
+          </div>
+          <div class="col-sm-6 col-lg-4 col-xl-4 py-3 wow zoomIn">
+            <div class="features">
+              <div class="header mb-3">
+                <span class="mai-business"></span>
+              </div>
+              <h5>Diffusion Network</h5>
+              <p>Interactive realtime diffusion network</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-4 col-xl-4 py-3 wow zoomIn">
+            <div class="features">
+              <div class="header mb-3">
+                <span class="mai-business"></span>
+              </div>
+              <h5>Geolocation Heatmap</h5>
+              <p>Heatmap of world by category of tweet content</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-4 col-xl-4 py-3 wow zoomIn">
+            <div class="features">
+              <div class="header mb-3">
+                <span class="mai-business"></span>
+              </div>
+              <h5>Categorical Wordclouds</h5>
+              <p>Wordclouds of dominant words in tweets of each category</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-4 col-xl-4 py-3 wow zoomIn">
+            <div class="features">
+              <div class="header mb-3">
+                <span class="mai-business"></span>
+              </div>
+              <h5>Bar Graph</h5>
+              <p>Dominant Users by categorical count of tweets</p>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-4 py-3 wow zoomIn">
-          <div class="card-pricing marked">
-            <div class="header">
-              <div class="pricing-type">Standar</div>
-              <div class="price">
-                <span class="dollar">$</span>
-                <h1>59<span class="suffix">.99</span></h1>
-              </div>
-              <h5>Per Month</h5>
-            </div>
-            <div class="body">
-              <p>25 Analytics <span class="suffix">Campaign</span></p>
-              <p>1,300 Change <span class="suffix">Keywords</span></p>
-              <p>Social Media <span class="suffix">Reviews</span></p>
-              <p>1 Free <span class="suffix">Optimization</span></p>
-              <p>24/7 <span class="suffix">Support</span></p>
-            </div>
-            <div class="footer">
-              <a href="#" class="btn btn-pricing btn-block">Subscribe</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 py-3 wow zoomIn">
-          <div class="card-pricing">
-            <div class="header">
-              <div class="pricing-type">Professional</div>
-              <div class="price">
-                <span class="dollar">$</span>
-                <h1>99<span class="suffix">.99</span></h1>
-              </div>
-              <h5>Per Month</h5>
-            </div>
-            <div class="body">
-              <p>25 Analytics <span class="suffix">Campaign</span></p>
-              <p>1,300 Change <span class="suffix">Keywords</span></p>
-              <p>Social Media <span class="suffix">Reviews</span></p>
-              <p>1 Free <span class="suffix">Optimization</span></p>
-              <p>24/7 <span class="suffix">Support</span></p>
-            </div>
-            <div class="footer">
-              <a href="#" class="btn btn-pricing btn-block">Subscribe</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div> <!-- .container -->
   </div> <!-- .page-section -->
 
-  <!-- Banner info -->
+
+  <!-- Blog -->
+  <div class="page-section">
+    <div class="container">
+      <div class="text-center wow fadeInUp">
+        <div class="subhead">TwiDash</div>
+        <h2 class="title-section">Features</h2>
+        <div class="divider mx-auto"></div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-lg-4 py-3 wow fadeInUp">
+          <div class="card-blog">
+            <div class="header">
+              <div class="post-thumb">
+                <img src="{{ url_for('static', filename='assets/img/blog/blog-1.jpg') }}" alt="">
+              </div>
+            </div>
+            <div class="body">
+              <h5 class="post-title"><a href="{{ url_for('view_dispersion')}}">Diffusion Networks</a></h5>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 py-3 wow fadeInUp">
+          <div class="card-blog">
+            <div class="header">
+              <div class="post-thumb">
+                <img src="{{ url_for('static', filename='assets/img/blog/blog-2.jpg') }}" alt="">
+              </div>
+            </div>
+            <div class="body">
+              <h5 class="post-title"><a href="#">Categorical Text Analysis</a></h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 py-3 wow fadeInUp">
+          <div class="card-blog">
+            <div class="header">
+              <div class="post-thumb">
+                <img src="{{ url_for('static', filename='assets/img/blog/blog-3.jpg') }}" alt="">
+              </div>
+            </div>
+            <div class="body">
+              <h5 class="post-title"><a href="{{ url_for('view_bargraph') }}">Visualizations</a></h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4 text-center wow fadeInUp">
+          <a href="{{ url_for('view_wordcloud') }}" class="btn btn-primary">View More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Banner info -->
   <div class="page-section banner-info">
     <div class="wrap bg-image" style="background-image: url(../assets/img/bg_pattern.svg);">
       <div class="container">
-        <div class="row align-items-center" style="padding-left:5%; padding-right:5%;">
+        <div class="row align-items-center" style="padding:5%;">
           <div class="col-lg-6 py-3 pr-lg-5 wow fadeInUp">
-            <h2 class="title-section">SEO to Improve Brand <br> Visibility</h2>
+            <h2 class="title-section">Motivation</h2>
             <div class="divider"></div>
-            <p>We're an experienced and talented team of passionate consultants who breathe with search engine marketing.</p>
-            
+            <p>Social media has resulted in vast amounts of information being created and propagated at unprecedented rates. Moreover, the format of social media content is easy to consume and share, giving it the potential to influence millions of people.</p>
+            <br>
             <ul class="theme-list theme-list-light text-white">
               <li>
-                <div class="h5">SEO Content Strategy</div>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor</p>
+                <div class="h5">Techniques</div>
+                <p>Training our tool on state of the art models and further improving upon them using real-time Twitter data.</p>
               </li>
+              <br>
               <li>
-                <div class="h5">B2B SEO</div>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor</p>
+                <div class="h5">Visualization</div>
+                <p>Several tools have thus been developed to analyze and visualize information diffusion, fake news and hate speech. However, there is a lack of a comprehensive tool to analyze the diffusion of the different fine-grained types of information propagated on social media. TwiDash addresses this need.</p>
               </li>
             </ul>
           </div>
@@ -358,64 +318,126 @@
     </div> <!-- .wrap -->
   </div> <!-- .page-section -->
 
-  <!-- Blog -->
+
   <div class="page-section">
     <div class="container">
       <div class="text-center wow fadeInUp">
-        <div class="subhead">Our Blog</div>
-        <h2 class="title-section">Read Latest News</h2>
+        <div class="subhead">Contact</div>
+        <h2 class="title-section">Team Members</h2>
         <div class="divider mx-auto"></div>
       </div>
-
       <div class="row mt-5">
-        <div class="col-lg-4 py-3 wow fadeInUp">
-          <div class="card-blog">
+        <div class="col-lg-4 py-3 wow zoomIn">
+          <div class="card-pricing">
             <div class="header">
-              <div class="post-thumb">
-                <img src="{{ url_for('static', filename='assets/img/blog/blog-1.jpg') }}" alt="">
+              <div class="pricing-type">Member</div>
+              <div class="price">
+                <h1>Harshita</h1>
               </div>
+              <h5>Srinivas</h5>
             </div>
             <div class="body">
-              <h5 class="post-title"><a href="#">Source of Content Inspiration</a></h5>
-              <div class="post-date">Posted on <a href="#">27 Jan 2020</a></div>
+              <p><span class="suffix">Email </span> harshita19244@iiitd.ac.in</p>
             </div>
-          </div>
-        </div>
-        
-        <div class="col-lg-4 py-3 wow fadeInUp">
-          <div class="card-blog">
-            <div class="header">
-              <div class="post-thumb">
-                <img src="{{ url_for('static', filename='assets/img/blog/blog-2.jpg') }}" alt="">
-              </div>
-            </div>
-            <div class="body">
-              <h5 class="post-title"><a href="#">Source of Content Inspiration</a></h5>
-              <div class="post-date">Posted on <a href="#">27 Jan 2020</a></div>
+            <div class="footer">
+              <a href="mailto: harshita19244@iiitd.ac.in" class="btn btn-pricing btn-block">Email</a>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-4 py-3 wow fadeInUp">
-          <div class="card-blog">
+        <div class="col-lg-4 py-3 wow zoomIn">
+          <div class="card-pricing">
             <div class="header">
-              <div class="post-thumb">
-                <img src="{{ url_for('static', filename='assets/img/blog/blog-3.jpg') }}" alt="">
+              <div class="pricing-type">Member</div>
+              <div class="price">
+                <h1>Karish</h1>
               </div>
+              <h5>Grover</h5>
             </div>
             <div class="body">
-              <h5 class="post-title"><a href="#">Source of Content Inspiration</a></h5>
-              <div class="post-date">Posted on <a href="#">27 Jan 2020</a></div>
+              <p><span class="suffix">Email </span> karish19471@iiitd.ac.in</p>
+            </div>
+            <div class="footer">
+              <a href="mailto: karish19471@iiitd.ac.in" class="btn btn-pricing btn-block">Email</a>
             </div>
           </div>
         </div>
 
-        <div class="col-12 mt-4 text-center wow fadeInUp">
-          <a href="blog.html" class="btn btn-primary">View More</a>
+        <div class="col-lg-4 py-3 wow zoomIn">
+          <div class="card-pricing">
+            <div class="header">
+              <div class="pricing-type">Member</div>
+              <div class="price">
+                <h1>Kirthana</h1>
+              </div>
+              <h5>Natarajan</h5>
+            </div>
+            <div class="body">
+              <p><span class="suffix">Email </span> kirthana19053@iiitd.ac.in</p>
+            </div>
+            <div class="footer">
+              <a href="mailto: kirthana19053@iiitd.ac.in" class="btn btn-pricing btn-block">Email</a>
+            </div>
+          </div>
         </div>
+
+        <div class="col-lg-4 py-3 wow zoomIn">
+          <div class="card-pricing">
+            <div class="header">
+              <div class="pricing-type">Member</div>
+              <div class="price">
+                <h1>Manasvi</h1>
+              </div>
+              <h5>Singh</h5>
+            </div>
+            <div class="body">
+              <p><span class="suffix">Email </span> manasvi19369@iiitd.ac.in</p>
+            </div>
+            <div class="footer">
+              <a href="mailto: manasvi19369@iiitd.ac.in" class="btn btn-pricing btn-block">Email</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 py-3 wow zoomIn">
+          <div class="card-pricing">
+            <div class="header">
+              <div class="pricing-type">Member</div>
+              <div class="price">
+                <h1>Naman</h1>
+              </div>
+              <h5>Gupta</h5>
+            </div>
+            <div class="body">
+              <p><span class="suffix">Email </span> naman19436@iiitd.ac.in</p>
+            </div>
+            <div class="footer">
+              <a href="mailto: naman19436@iiitd.ac.in" class="btn btn-pricing btn-block">Email</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 py-3 wow zoomIn">
+          <div class="card-pricing">
+            <div class="header">
+              <div class="pricing-type">Member</div>
+              <div class="price">
+                <h1>Vani</h1>
+              </div>
+              <h5>Sikka</h5>
+            </div>
+            <div class="body">
+              <p><span class="suffix">Email </span> vani19395@iiitd.ac.in</p>
+            </div>
+            <div class="footer">
+              <a href="mailto: vani19395@iiitd.ac.in" class="btn btn-pricing btn-block">Email</a>
+            </div>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </div>
+    </div> <!-- .container -->
+  </div> <!-- .page-section -->
 
   <footer class="page-footer bg-image" style="background-image: url(../assets/img/world_pattern.svg);">
     <!-- <div class="container">
