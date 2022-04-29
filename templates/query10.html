@@ -51,48 +51,8 @@
               <p class="content">Bar Plot of users with max number of tweets in '5' category</p>
             </div> 
           </div>
-          <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
-            <div class="card" id="about">
-              <div id='chart_0_likes' class='chart'”></div>
-              
-              <p class="content">Top most '0' category liked tweets</p>
-            </div>
-          </div>
-          <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;">
-            <div class="card" id="background">
-              <div id='chart_1_likes' class='chart'”></div>
-              
-              <p class="content">Top most '1' category liked tweets</p>
-            </div> 
-          </div>
-          <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
-            <div class="card" id="about">
-              <div id='chart_2_likes' class='chart'”></div>
-              
-              <p class="content">Top most '2' category liked tweets</p>
-            </div>
-          </div>
-          <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;">
-            <div class="card" id="background">
-              <div id='chart_3_likes' class='chart'”></div>
-              
-              <p class="content">Top most '3' category liked tweets</p>
-            </div> 
-          </div>
-          <div class="column" style="float: left; width: 32%; margin-top: 70px; margin-left: 250px;">
-            <div class="card" id="about">
-              <div id='chart_4_likes' class='chart'”></div>
-              
-              <p class="content">Top most '4' category liked tweets</p>
-            </div>
-          </div>
-          <div class="column" style="float:left; width: 32%; margin-top: 70px; margin-left: 180px;">
-            <div class="card" id="background">
-              <div id='chart_5_likes' class='chart'”></div>
-              
-              <p class="content">Top most '5' category liked tweets</p>
-            </div> 
-          </div>
+          
+          
     </div>
 </div>
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
@@ -103,12 +63,7 @@
   var graphs3 = {{graphJSON[3] | safe}};
   var graphs4 = {{graphJSON[4] | safe}};
   var graphs5 = {{graphJSON[5] | safe}};
-  var graph_likes_0={{graphJSON_likes[0]|safe}};
-  var graph_likes_1={{graphJSON_likes[1]|safe}};
-  var graph_likes_2={{graphJSON_likes[2]|safe}};
-  var graph_likes_3={{graphJSON_likes[3]|safe}};
-  var graph_likes_4={{graphJSON_likes[4]|safe}};
-  var graph_likes_5={{graphJSON_likes[5]|safe}};
+  
   Plotly.plot('chart0',graphs0,{});
   Plotly.plot('chart1',graphs1,{});
   Plotly.plot('chart2',graphs2,{});
@@ -116,12 +71,7 @@
   Plotly.plot('chart4',graphs4,{});
   Plotly.plot('chart5',graphs5,{});
 
-  Plotly.plot('chart_0_likes',graph_likes_0,{});
-  Plotly.plot('chart_1_likes',graph_likes_1,{});
-  Plotly.plot('chart_2_likes',graph_likes_2,{});
-  Plotly.plot('chart_3_likes',graph_likes_3,{});
-  Plotly.plot('chart_4_likes',graph_likes_4,{});
-  Plotly.plot('chart_5_likes',graph_likes_5,{});
+  
 
 </script>
 {% endblock %}
