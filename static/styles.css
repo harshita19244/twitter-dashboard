@@ -39,8 +39,8 @@
    .favicon{
     background-image: url('../images/img.png');
     min-height: 450px;
-    max-width: 60%;
-    margin-left: 90px;
+    max-width: 80%;
+    margin-left: 110px;
     /* Center and scale the image nicely */
     background-position: center;
     background-size: cover;
@@ -99,7 +99,7 @@
     text-align: center;
    }
    .dropdown li:hover {
-    background-color: #B4B3FF;
+    background-color: #4c9e9e;
    }
    .services:hover .dropdown {
     display: block;
@@ -121,7 +121,7 @@ input[type=checkbox]{
    .menu { 
     display:none;
     position: absolute;
-    background-color:#B4B3FF;
+    background-color:teal;
     right: 0;
     left: 0;
     text-align: center;
@@ -147,7 +147,7 @@ input[type=checkbox]{
     transform: translateX(35%);
    }
    .dropdown li:hover {
-    background-color: #B4B3FF;
+    background-color: #4c9e9e;
    }
    }
 
@@ -168,8 +168,7 @@ input[type=checkbox]{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
   padding: 16px;
   text-align: center;
-  background-color:#B4B3FF;
-  margin-bottom: 20px;
+  background-color:#6daaaa;
 }
 
 .card:hover {
@@ -196,47 +195,3 @@ i{
   padding-right: 10px;
 }
 
-.bg-img {
-  /* The image used */
-  background-image: url('../images/favicon.jpeg');
-  min-height: 450px;
-  max-width: 60%;
-  margin-top: 100px;
-  margin-left: 290px;
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  align-self: center;
-}
-
-.btn-input {
-  background-color:var(--bs-blue);
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-  font-size: 1rem;
-  margin-left: 18px;
-  margin-top: 10px;
-  font-family: var(--bs-body-font-family);
-}
-
-.btn:hover {
-  opacity: 1;
-}
-
-input[type=text], input[type=text] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=text]:focus {
-  background-color: #ddd;
-  outline: none;
-}

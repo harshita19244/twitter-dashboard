@@ -182,8 +182,9 @@ def view_dispersion():
 @app.route("/query5")
 def plot_users():
     df = dbtodf()
-    graphJSON = query_users.user_plots(df, app)
-    return render_template('query10.html', graphJSON=graphJSON)
+    graphJSON_1_,graphJSON_2_,graphJSON_3_,graphJSON_4_,graphJSON_5_ = query_users.user_plots(df, app)
+    return render_template('query10.html',  graphJSON_1_=graphJSON_1_,graphJSON_2_=graphJSON_2_,graphJSON_3_=graphJSON_3_,graphJSON_4_=graphJSON_4_,graphJSON_5_=graphJSON_5_)
+   
 @app.route("/likes5")
 def plot_users_likes():
     df = dbtodf()
