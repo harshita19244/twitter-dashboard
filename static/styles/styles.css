@@ -99,7 +99,7 @@
     text-align: center;
    }
    .dropdown li:hover {
-    background-color: #4c9e9e;
+    background-color: #B4B3FF;
    }
    .services:hover .dropdown {
     display: block;
@@ -121,7 +121,7 @@ input[type=checkbox]{
    .menu { 
     display:none;
     position: absolute;
-    background-color:teal;
+    background-color:#B4B3FF;
     right: 0;
     left: 0;
     text-align: center;
@@ -147,7 +147,7 @@ input[type=checkbox]{
     transform: translateX(35%);
    }
    .dropdown li:hover {
-    background-color: #4c9e9e;
+    background-color: #B4B3FF;
    }
    }
 
@@ -168,7 +168,8 @@ input[type=checkbox]{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
   padding: 16px;
   text-align: center;
-  background-color:#6daaaa;
+  background-color:#B4B3FF;
+  margin-bottom: 20px;
 }
 
 .card:hover {
