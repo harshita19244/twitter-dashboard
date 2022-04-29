@@ -258,6 +258,10 @@ def classify_inputtext():
 def get_contact():
     return render_template('contactUs.html')
 
+@app.route('/background')
+def get_background():
+    return render_template('background.html')
+
 @app.after_request
 def add_header(response):
 	"""
