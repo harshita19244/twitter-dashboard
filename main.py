@@ -129,7 +129,7 @@ def realTimeTweets():
                 ,RT = status.retweet_count,User_location = status.user.location)
                 db.session.add(tweet_1)
                 db.session.commit()
-            # time.sleep(5)
+            time.sleep(30)
             df_5 = dbtodf()
             print(df_5)
             print(df_5.columns)
