@@ -28,6 +28,7 @@ import categorical_wordcloud
 import geoheatmap
 import input_tweet
 import query_users
+import likesuser
 import bargraph
 import json
 import plotly
@@ -181,8 +182,13 @@ def view_dispersion():
 @app.route("/query5")
 def plot_users():
     df = dbtodf()
-    graphJSON, graphJSON_likes = query_users.user_plots(df, app)
-    return render_template('query10.html', graphJSON=graphJSON, graphJSON_likes=graphJSON_likes)
+    graphJSON = query_users.user_plots(df, app)
+    return render_template('query10.html', graphJSON=graphJSON)
+@app.route("/likes5")
+def plot_users_likes():
+    df = dbtodf()
+    graphJSON_likes = likesuser.user_plots(df, app)
+    return render_template('likes5.html', graphJSON_likes=graphJSON_likes)
 
 @app.route('/inputtext', methods=['GET', 'POST'])
 def classify_inputtext():
