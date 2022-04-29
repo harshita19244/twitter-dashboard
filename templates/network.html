@@ -19,12 +19,15 @@
       <label for="checkbox_toggle" class="hamburger">&#9776;</label>
       <!-- NAVIGATION MENUS -->
       <div class="menu">
-          <li class="services">
-            <a href="{{ url_for('get_home') }}"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
-            <ul class="dropdown">
-            <li><a href="{{ url_for('get_background') }}">Background </a></li>
-            <li><a href="{{ url_for('get_contact') }}">Contact</a></li>
-            </ul>
+        <li class="services">
+          <a href="{{ url_for('get_home') }}"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
+          <!-- ul class="dropdown">
+          <li><a href="{{ url_for('get_background') }}">Background </a></li>
+          <li><a href="{{ url_for('get_contact') }}">Contact</a></li>
+          </ul> -->
+        </li>
+        <li class="services">
+          <a href="{{ url_for('get_background') }}"><i class="fa fa-info" aria-hidden="true"></i>Background</a>
         </li>
         <li class="services">
           <a href="/"><i class="fa fa-line-chart" aria-hidden="true"></i>Visualize</a>
