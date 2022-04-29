@@ -49,6 +49,13 @@ df = pd.DataFrame(columns=["Date","User","IsVerified","Tweet","Likes","RT",'User
 tags = ['True', 'Satire', 'Misleading', 'Manipulated', 'False', 'Impostor']
 app = Flask(__name__)
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app)
+from sassutils.wsgi import SassMiddleware
+app.wsgi_app = SassMiddleware(app.wsgi_app, {
+    'main': ('static/sass', 'static/styles', '/static/styles')
+})
+
 #Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///twitter.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

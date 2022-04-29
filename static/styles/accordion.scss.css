@@ -1,0 +1,83 @@
+@charset "UTF-8";
+/*
+Native <details> element styling
+AUTHOR: https://codepen.io/nicolasjengler 
+
++ replaced list-item styling with flex and pseudo-element content on summary => vertically aligned sign with summary content
++ added selection and focus outline matching detail style
++ addede custom list-style-type
+  - corona-warning  
+  - corona-info
+  - corona-alert
++ fix body height –> min-height: 
+  allow scroll on all details opened
+*/
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap");
+:root {
+  --color-bg: #EEEDEB;
+  --color-title: #0E1C4E;
+  --color-summary-1: #FFF6EE;
+  --color-summary-1-highlight: #FFC48B;
+  --color-summary-2: #FAFAFF;
+  --color-summary-2-highlight: #B4B3FF;
+  --color-summary-3: #FFF0F3;
+  --color-summary-3-highlight: #FFB3C0;
+  --font-ibm-plex-sans: 'IBM Plex Sans', sans-serif; }
+
+details {
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(76, 175, 255, 0.3);
+  border-left: 15px solid gray;
+  padding: 15px; }
+  details {
+    margin-top: 15px; }
+  details.warning {
+    --highlight: var(--color-summary-1-highlight) ;
+    background: var(--color-summary-1);
+    border-left-color: var(--color-summary-1-highlight); }
+  details.info {
+    --highlight: var(--color-summary-2-highlight) ;
+    background: var(--color-summary-2);
+    border-left-color: var(--color-summary-2-highlight); }
+  details.alert {
+    --highlight: var(--color-summary-3-highlight) ;
+    background: var(--color-summary-3);
+    border-left-color: var(--highlight); }
+  details summary, details p {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    font-family: var(--font-ibm-plex-sans);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    color: var(--color-title);
+    padding: 20px;
+    cursor: pointer; }
+    details summary::-webkit-details-marker, details p::-webkit-details-marker {
+      display: none; }
+    details summary:focus, details p:focus {
+      outline: solid 3px var(--highlight); }
+    details summary::selection, details p::selection {
+      background-color: var(--highlight); }
+  details p {
+    cursor: default;
+    margin-left: 3rem; }
+  details summary::before {
+    cursor: pointer;
+    position: absolute;
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    left: 0rem;
+    margin-right: .5rem; }
+  details[open] summary {
+    font-weight: 700; }
+    details[open] summary::before {
+      transform: rotate(45deg); }
+
+/*# sourceMappingURL=accordion.scss.css.map */
