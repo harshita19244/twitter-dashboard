@@ -25,6 +25,7 @@ AUTHOR: https://codepen.io/nicolasjengler
   --color-summary-2-highlight: #B4B3FF;
   --color-summary-3: #FFF0F3;
   --color-summary-3-highlight: #FFB3C0;
+  --color-summary-4-highlight: #4cafff4d;
   
   --font-ibm-plex-sans: 'IBM Plex Sans', sans-serif;
 }
@@ -51,6 +52,12 @@ details {
      --highlight: var(--color-summary-2-highlight) ;
     background: var(--color-summary-2);
     border-left-color: var(--color-summary-2-highlight);
+  }
+
+  &.info-tweet {
+     --highlight: var(--color-summary-2-highlight) ;
+    background: var(--color-summary-2);
+    border-left-color: var(--color-summary-4-highlight);
   }
   
   &.alert {
